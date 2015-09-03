@@ -4,6 +4,8 @@ var express = require('express'),
 	yelp = require('yelp'),
 	mongoose = require('mongoose');
 
+require('dotenv').load();
+
 //connect to mongodb
 
 mongoose.connect(
@@ -19,10 +21,10 @@ app.use(bodyParser.json());
 // Request API access: http://www.yelp.com/developers/getting_started/api_access 
  
 yelp.createClient({
-  consumer_key: 'gvjfYaKyGq4oyYi4okZcEQ', 
-  consumer_secret: 'VsJ84wbtvPzFil2crodvww2MA4w',
-  token: '9nOouMy-sbOd2vlN15LLy_vf-i4X7ogd',
-  token_secret: 'sqdtansnrG6p-WYwdLfh_73AnFI'
+  consumer_key: process.env.CONSUMER_KEY, 
+  consumer_secret: process.env.CONSUMER_SECRET,
+  token: process.env.TOKEN,
+  token_secret: process.env.TOKEN_SECRET
 });
  
 // See http://www.yelp.com/developers/documentation/v2/search_api 
