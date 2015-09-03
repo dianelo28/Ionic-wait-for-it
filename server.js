@@ -1,7 +1,7 @@
 var express = require('express'),
 	app = express(),
 	bodyParser = require('body-parser'),
-	yelp = require('yelp'),
+	yelp = require('node-yelp'),
 	mongoose = require('mongoose');
 
 require('dotenv').load();
@@ -19,23 +19,31 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 // Request API access: http://www.yelp.com/developers/getting_started/api_access 
- 
-yelp.createClient({
-  consumer_key: process.env.CONSUMER_KEY, 
-  consumer_secret: process.env.CONSUMER_SECRET,
-  token: process.env.TOKEN,
-  token_secret: process.env.TOKEN_SECRET
+var client = yelp.createClient({
+  oauth: {
+    "consumer_key": "gvjfYaKyGq4oyYi4okZcEQ",
+    "consumer_secret": "VsJ84wbtvPzFil2crodvww2MA4w",
+    "token": "7NjtvVmufl24YsGtdxdea-Rf1oheC3hA",
+    "token_secret": "-RQ_cdjn_Nthsn8gpE-qNimOdyM"
+  }
 });
  
 // See http://www.yelp.com/developers/documentation/v2/search_api 
-app.get('http://localhost3000/search', function (req,res){
-	yelp.search({term: 'food', location: 'Montreal'}, function (error, data) {
-	  res.json(data.businesses)
-	  console.log(error);
-	  console.log(data.businesses);
+app.get('/api/search', function (req,res) {
+	client.search({
+	  terms: "Café de la presse",
+	  location: "BELGIUM"
+	}).then(function (data) {
+	  var businesses = data.businesses;
+	  var location = data.region;
+	  res.json(businesses);
+	  // ...  
 	});
 });
 
+app.get("/testing", function(req, res) {
+	res.send("working");
+});
 
 // listen on port 3000
 app.listen(process.env.PORT || 3000, function () {
