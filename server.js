@@ -28,9 +28,9 @@ yelp.createClient({
 });
  
 // See http://www.yelp.com/developers/documentation/v2/search_api 
-app.get('http://localhost3000/search', function (req,res){
+app.get('http://localhost:3000/api/search', function (req,res){
 	yelp.search({term: 'food', location: 'Montreal'}, function (error, data) {
-	  res.json(data.businesses)
+	  res.json(data.businesses);
 	  console.log(error);
 	  console.log(data.businesses);
 	});

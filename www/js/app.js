@@ -65,21 +65,9 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 }]);
 
 app.service('YelpSearch', ['$resource', function($resource) {
-    return $resource('http://localhost:3000/search')
+    return $resource('http://localhost:3000/api/search')
 }]);
 
-app.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if(window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if(window.StatusBar) {
-      StatusBar.styleDefault();
-    };
-  });
-});
 
 app.controller('MainCtrl', ['$scope', 'YelpSearch', function($scope, YelpSearch){
   $scope.markers = [{
@@ -336,3 +324,16 @@ app.controller('MainCtrl', ['$scope', 'YelpSearch', function($scope, YelpSearch)
   //        };
 
 }]);
+
+app.run(function($ionicPlatform) {
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if(window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    }
+    if(window.StatusBar) {
+      StatusBar.styleDefault();
+    };
+  });
+});
