@@ -4,6 +4,7 @@
   "description": "waitforit: An Ionic project",
   "main": "server.js",
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "body-parser": "^1.13.3",
     "dotenv": "^1.2.0",
     "express": "^4.13.3",

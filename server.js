@@ -4,6 +4,10 @@ var express = require('express'),
 	yelp = require('node-yelp'),
 	mongoose = require('mongoose');
 
+var User = require("./models/user.js"),
+	Comment = require("./models/comment.js"),
+	Business = require("./models/business.js");
+
 require('dotenv').load();
 
 //connect to mongodb
