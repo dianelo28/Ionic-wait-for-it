@@ -24,11 +24,11 @@
   </ion-tabs>
 <ion-content>
 
-  <a ng-href="/business" ng-repeat="marker in markers | orderBy: 'name'">
+  <a ng-href="/business" ng-repeat="spot in spots | orderBy: 'name'">
     <div class="card">
       <div class="item item-text-wrap" >
-        <h2>{{marker.name}}<h2>
-        <p>{{marker.addr}}</p>
+        <h2>{{spot.name}}<h2>
+        <p>{{spot.addr}}</p>
       </div>
     </div>
   </a>
