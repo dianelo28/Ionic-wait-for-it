@@ -29,6 +29,13 @@ body{
 	background: #1695a3;
 }
 
+
+.namecard i{
+	float: right;
+	font-size: 20px;
+}
+
+
 .boneyard{
 	margin-top: 20vh;
 	padding-top: 5vh;

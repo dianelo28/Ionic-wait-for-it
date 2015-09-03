@@ -26,7 +26,7 @@
 
 <ion-content>
 	<map center="37.763830, -122.444813" zoom="13">
-		<marker ng-repeat="marker in markers | filter:q as results" position="{{marker.lat}},{{marker.long}}" on-click="showInfoWindow(event, marker)"></marker>
+		<marker ng-repeat="spot in spots | filter:q as results" position="{{spot.location.coordinate.latitude}},{{spot.location.coordinate.longitude}}" on-click="showInfoWindow(event, marker)"></marker>
 	</map>
 </ion-content>
 
