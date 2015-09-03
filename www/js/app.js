@@ -40,6 +40,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controller: 'MainCtrl'
 
         })
+        .when('/login',{
+            templateUrl: '/templates/login.html',
+            controller: 'MainCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });
