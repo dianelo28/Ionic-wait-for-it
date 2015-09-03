@@ -9,3 +9,22 @@ a{
 	color: black;
 	text-decoration: none;
 }
+
+#title{
+	margin-top: 30vh;
+	color: #f3ffe2;
+}
+
+#explanation{
+	margin-bottom: 50px;
+	margin-top: 20px;
+	color: #f3ffe2;
+	font-size: 20px;
+}
+.start{
+	background: #eb7f00;
+}
+
+body{
+	background: #1695a3;
+}

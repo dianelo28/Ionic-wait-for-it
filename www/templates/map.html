@@ -1,0 +1,26 @@
+<!-- Center content -->
+<div class="bar bar-header bar-dark">      
+	<h1 class="title">Wait for it...</h1>
+</div>
+
+<div class="tabs-striped tabs-top tabs-background-dark tabs-color-light ">
+    <div class="tabs">
+      <a class="tab-item active" href="/home">
+        <i class="icon ion-home"></i>
+        Test
+      </a>
+      <a class="tab-item" href="/favorites">
+        <i class="icon ion-star"></i>
+        Favorites
+      </a>
+      <a class="tab-item" href="/map">
+        <i class="icon ion-gear-a"></i>
+        Map
+      </a>
+    </div>
+ </div>
+
+<map center="37.763830, -122.444813" zoom="13">
+	<marker ng-repeat="marker in markers | filter:q as results" position="{{marker.lat}},{{marker.long}}" on-click="showInfoWindow(event, marker)"></marker>
+</map>
+
