@@ -44,6 +44,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: '/templates/login.html',
             controller: 'MainCtrl'
         })
+        .when('/alert',{
+            templateUrl: '/templates/alert.html',
+            controller: 'MainCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });

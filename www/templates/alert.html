@@ -1,0 +1,26 @@
+<div class="boneyard">
+	<p class='col form-title' align='center'>Set Notifications</p>
+	<form ng-submit="notifyUser(setting)">
+		<div class="list">
+		  <label class="item item-input">
+		    <span class="input-label">Date</span>
+		    <input type="date" ng-model="setting.date">
+		  </label>
+		  <label class="item item-input">
+		    <span class="input-label">From</span>
+		    <input type="time" ng-model="setting.fromTime">
+		  </label>
+  		  <label class="item item-input">
+		    <span class="input-label">To</span>
+		    <input type="time" ng-model="setting.toTime">
+		  </label>
+  		  <label class="item item-input">
+		    <span class="input-label">Wait</span>
+		    <input type="time" ng-model="setting.waitTime">
+		  </label>
+
+  		</div>
+	  	<input type="submit" class=" col col-33 col-offset-33 button start" value="Save">
+
+	</form>
+</div>
