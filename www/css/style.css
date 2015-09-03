@@ -28,3 +28,14 @@ a{
 body{
 	background: #1695a3;
 }
+
+.boneyard{
+	margin-top: 20vh;
+	padding-top: 5vh;
+	padding-bottom: 100%;
+	background: #f3ffe2;
+}
+
+.form-title{
+	margin-bottom: 10px;
+}
