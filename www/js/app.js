@@ -142,6 +142,7 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth', function($scope, $r
 
   $scope.isAuthenticated = function() {
     //check if user is logged in
+    console.log($auth.isAuthenticated());
     return $auth.isAuthenticated();
   };
 
