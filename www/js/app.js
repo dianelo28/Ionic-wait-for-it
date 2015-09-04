@@ -31,7 +31,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controller: 'MainCtrl'
 
         })
-        .when('/business',{
+        .when('/business/:id',{
             templateUrl: '/templates/business.html',
             controller: 'MainCtrl'
 
@@ -72,6 +72,7 @@ app.service('YelpSearch', ['$resource', function($resource) {
 app.controller('MainCtrl', ['$scope', 'YelpSearch', function($scope, YelpSearch){
 
   $scope.spots = YelpSearch.query();
+  console.log($scope.spots)
 
   // $scope.submitWait = function(marker, newWait){
   //   marker.wait.push({

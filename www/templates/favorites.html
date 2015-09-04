@@ -24,13 +24,15 @@
   </ion-tabs>
 <ion-content>
 
-  <a ng-href="/business" ng-repeat="marker in markers | orderBy: 'name'">
-    <div class="card">
-      <div class="item item-text-wrap" >
-        <h2>{{marker.name}}<h2>
-        <p>{{marker.addr}}</p>
+  <div ng-repeat="spot in spots | orderBy: 'name'">
+    <a ng-href="/business/{{spot.id}}">
+      <div class="item item-text-wrap namecard" >
+        <h2>{{spot.name}}<h2>
+          <a href='javascript:void(0)'><i ng-class="{'ion-ios-heart' : !fav, 
+          'ion-ios-heart-outline' : fav}" ng-click='fav = !fav'></i></a>
+        <p>{{spot.location.display_address[0]}}, {{spot.location.display_address[2]}}</p>
       </div>
-    </div>
-  </a>
+    </a>
+  </div>
 
 </ion-content>
