@@ -2,20 +2,22 @@
 <div class="boneyard">
 	<p class='col form-title' align='center'>Search by</p><br>
 	<div class="list">
-	  <label class="item item-input">
-	    <span class="input-label">Restaurant Name</span>
-	    <input type="text">
-	  </label>
-	  <br><p align='center'>or</p><br>
-	  <label class="item item-input">
-	    <span class="input-label">Neighborhood</span>
-	    <input type="text">
-	  </label>
+		<form ng-submit="search(s)">
+		  <label class="item item-input">
+		    <input type="text" ng-model="s.term" placeholder="Restaurant Name">
+		  </label>
+		  <br><p align='center'>or</p><br>
+		  <label class="item item-input" >
+		    <input type="text" ng-model="s.neighborhood" placeholder="Neighborhood">
+		  </label>
+
+		  <div class='row row-bottom'>
+		  	<input type="submit" class='col col-33 col-offset-33 start' align='center' value="Submit" >
+		  	<a href="/home">home</a>
+		  </div>
+
+		</form>
 	</div>
 
-
-	<div class='row row-bottom'>
-		<a href='/home' class='col col-33 col-offset-33 start' align='center'>Search</a>
-	</div>
 </div>
 </ion-content>
