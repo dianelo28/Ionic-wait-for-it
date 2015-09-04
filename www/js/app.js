@@ -3,7 +3,8 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var app = angular.module('wait', ['ionic', 'ngMap', 'angularMoment', 'ngRoute', 'ngResource', 'satellizer'])
+
+var app = angular.module('wait', ['ionic', 'ngMap', 'angularMoment', 'ngRoute', 'satellizer']);
 
 app.config(['$ionicConfigProvider', "$authProvider", function($ionicConfigProvider, $authProvider) {
 
@@ -30,11 +31,11 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         })
         .when('/home',{
             templateUrl: '/templates/home.html',
-            controller: 'MainCtrl'
+            controller: 'HomeCtrl'
         })
         .when('/map',{
             templateUrl: '/templates/map.html',
-            controller: 'MainCtrl'
+            controller: 'HomeCtrl'
 
         })
         .when('/business/:id',{
@@ -70,15 +71,28 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     });
 }]);
 
-app.service('YelpSearch', ['$resource', function($resource) {
-    return $resource('http://localhost:3000/api/search');
-}]);
+// app.service('YelpSearch', ['$resource', function($resource) {
+//     return $resource('http://localhost:3000/api/search');
+// }]);
 
 
-app.controller('MainCtrl', ['$scope', '$rootScope', '$window', '$auth', 'YelpSearch', function($scope, $rootScope, $window, $auth, YelpSearch){
 
-  $scope.spots = YelpSearch.query();
-  console.log($scope.spots)
+app.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$location', '$auth', function($scope, $rootScope, $http, $location, $auth){
+
+  $scope.search = function (s){
+    $http.post('http://localhost:3000/api/search/' + s.term, s)
+      .then(function(response){
+      $location.path('/home');
+      $rootScope.spots = response.data;
+      });
+  };
+
+  // $scope.spots = YelpSearch.query();
+  // console.log($scope.spots);
+
+  // $scope.search() = function(){
+  //   $scope.restaurant
+  // }
 
   // $scope.submitWait = function(marker, newWait){
   //   marker.wait.push({
@@ -90,25 +104,32 @@ app.controller('MainCtrl', ['$scope', '$rootScope', '$window', '$auth', 'YelpSea
 
   // };
 
+}]);
 
-  // $scope.$on('mapInitialized', function (event, map) {
-  //           $scope.objMapa = map;
-  //        });
+app.controller('HomeCtrl', ['$scope', '$rootScope', function($scope, $rootScope){
 
-  // $scope.showInfoWindow = function (event, marker) {
-  //           var infowindow = new google.maps.InfoWindow();
-  //           var center = new google.maps.LatLng(marker.lat, marker.long);
+  $rootScope.spots = $scope.spots;
 
-  //           infowindow.setContent(
-  //               '<h4>' + marker.name + '</h4>'+
-  //               '<h5>' + marker.addr + '</h5>'
-  //               );
 
-  //           infowindow.setPosition(center);
-  //           infowindow.open($scope.objMapa);
-  //           $scope.objMapa.setZoom(15);
-  //           $scope.objMapa.setCenter(center);
-  //        };
+  $scope.$on('mapInitialized', function (event, map) {
+            $scope.objMapa = map;
+         });
+
+  $scope.showInfoWindow = function (event, spot) {
+            var infowindow = new google.maps.InfoWindow();
+            var center = new google.maps.LatLng(spot.location.coordinate.latitude, spot.location.coordinate.longitude);
+
+            infowindow.setContent(
+                '<h4>' + spot.name + '</h4>' +
+                '<h4>' + spot.location.display_address[0] + ", " + spot.location.display_address[2] + '</h4>'                
+            );
+
+            infowindow.setPosition(center);
+            infowindow.open($scope.objMapa);
+            $scope.objMapa.setZoom(15);
+            $scope.objMapa.setCenter(center);
+         };
+}]);  
 
   $scope.isAuthenticated = function() {
     //check if user is logged in
@@ -157,6 +178,7 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$auth', functio
 app.controller('Signup', ['$scope', function($scope){
 
 }]);
+
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
