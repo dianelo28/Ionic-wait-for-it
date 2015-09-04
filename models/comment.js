@@ -4,10 +4,10 @@ var mongoose = require("mongoose"),
 var User = require("./user.js");
 
 var CommentSchema = new Schema({
-	comments: {type: String, expires: 60 * 15}
+	comments: {type: String, expires: 60*15},
 	author: [{
 		type: Schema.Types.ObjectId,
-		ref: User 
+		ref: "User" 
 	}]
 });
 

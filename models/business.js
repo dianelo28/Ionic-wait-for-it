@@ -7,7 +7,7 @@ var BusinessSchema = new Schema({
 	twoWait: {type: Number, expires: 60 * 15},
 	fourWait: {type: Number, expires: 60 * 15},
 	fiveWait: {type: Number, expires: 60 * 15},
-	comments: [Comment.Schema]
+	comments: [Comment.schema]
 });
 
 var Business = mongoose.model("Business", BusinessSchema);
