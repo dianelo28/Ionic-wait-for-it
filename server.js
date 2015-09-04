@@ -47,7 +47,16 @@ function isAuthenticated(req, res, next) {
 
   var header = req.headers.authorization.split(' ');
   var token = header[1];
-  var payload = jwt.decode(token, "tokenSecret");
+  console.log(token)
+  
+  var payload = null;
+  try{
+  	payload = jwt.decode(token, "tokenSecret");
+  }
+  catch (err){
+  	return res.status(401).send({message: err.message});
+  }
+  console.log(payload)
   var now = moment().unix();
 
   if (payload.exp <= now) {
@@ -59,7 +68,7 @@ function isAuthenticated(req, res, next) {
       return res.status(400).send({ message: 'User no longer exists.' });
     }
 
-    req.user = user;
+    req.user = payload.sub;
     next();
   })
 }

@@ -92,8 +92,8 @@ app.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$location', '$auth
   $scope.search = function (s){
     $http.post('http://localhost:3000/api/search/' + s.term, s)
       .then(function(response){
-      $location.path('/home');
-      $rootScope.spots = response.data;
+        $location.path('/home');
+        $rootScope.spots = response.data;
       });
   };
 
@@ -116,7 +116,7 @@ app.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$location', '$auth
 
 }]);
 
-app.controller('HomeCtrl', ['$scope', '$rootScope', function($scope, $rootScope){
+app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth', function($scope, $rootScope, $auth){
 
   $rootScope.spots = $scope.spots;
 
@@ -156,7 +156,7 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', function($scope, $rootScope)
 
 }]);
 
-app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$auth', function($scope, $rootScope, $window, $auth){
+app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$auth', '$location', function($scope, $rootScope, $window, $auth, $location){
 
     $scope.facebookLogin = function() {
       $auth.authenticate('facebook')
@@ -173,6 +173,7 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$auth', functio
         .then(function(response) {
           $window.localStorage.currentUser = JSON.stringify(response.data.user);
           $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
+          $location.path('/home')
         })
         .catch(function(response) {
           $scope.errorMessage = {};
@@ -184,7 +185,7 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$auth', functio
     };    
 }]);
 
-app.controller('SignupCtrl', ['$scope', '$auth', function($scope, $auth){
+app.controller('SignupCtrl', ['$scope', '$auth', '$location', function($scope, $auth, $location){
 
   $scope.signup = function(sec) {
     var user = {
@@ -198,6 +199,8 @@ app.controller('SignupCtrl', ['$scope', '$auth', function($scope, $auth){
       .catch(function(response) {
         console.log(response.data);
       });
+
+      $location.path('/home')
   };
 
 }]);

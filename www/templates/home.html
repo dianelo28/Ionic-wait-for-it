@@ -25,7 +25,12 @@
 <ion-content>
 
   <div ng-repeat="spot in spots">
+    <div ng-if="isAuthenticated()">
     <a ng-href="/business/{{spot.id}}">
+    </div>
+    <div ng-if="!isAuthenticated()">
+    <a ng-href="/login">
+    </div>
       <div class="item item-text-wrap namecard" >
         <h2>{{spot.name}}<h2>
           <a href='javascript:void(0)'><i ng-class="{'ion-ios-heart-outline' : !fav, 'ion-ios-heart' : fav}" ng-click='fav = !fav'></i></a>
