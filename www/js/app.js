@@ -3,11 +3,17 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var app = angular.module('wait', ['ionic', 'ngMap', 'angularMoment', 'ngRoute', 'ngResource'])
+var app = angular.module('wait', ['ionic', 'ngMap', 'angularMoment', 'ngRoute', 'ngResource', 'satellizer'])
 
-app.config(['$ionicConfigProvider', function($ionicConfigProvider) {
+app.config(['$ionicConfigProvider', "$authProvider", function($ionicConfigProvider, $authProvider) {
 
     $ionicConfigProvider.tabs.position('bottom'); // other values: top
+
+    $authProvider.loginUrl = 'http://localhost:3000/auth/login';
+    $authProvider.signupUrl = 'http://localhost:3000/auth/signup';
+    $authProvider.facebook({
+      clientId: '865103580253448'
+    });
 
 }]);
 
@@ -43,12 +49,12 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         })
         .when('/signup',{
             templateUrl: '/templates/signup.html',
-            controller: 'MainCtrl'
+            controller: 'SignupCtrl'
 
         })
         .when('/login',{
             templateUrl: '/templates/login.html',
-            controller: 'MainCtrl'
+            controller: 'LoginCtrl'
         })
         .when('/alert',{
             templateUrl: '/templates/alert.html',
@@ -69,7 +75,7 @@ app.service('YelpSearch', ['$resource', function($resource) {
 }]);
 
 
-app.controller('MainCtrl', ['$scope', 'YelpSearch', function($scope, YelpSearch){
+app.controller('MainCtrl', ['$scope', '$rootScope', '$window', '$auth', 'YelpSearch', function($scope, $rootScope, $window, $auth, YelpSearch){
 
   $scope.spots = YelpSearch.query();
   console.log($scope.spots)
@@ -103,6 +109,52 @@ app.controller('MainCtrl', ['$scope', 'YelpSearch', function($scope, YelpSearch)
   //           $scope.objMapa.setZoom(15);
   //           $scope.objMapa.setCenter(center);
   //        };
+
+  $scope.isAuthenticated = function() {
+    //check if user is logged in
+    return $auth.isAuthenticated();
+  };
+
+  $scope.linkFacebook = function() {
+    // connect email account with instagram
+    $auth.link('facebook')
+      .then(function(response) {
+        $window.localStorage.currentUser = JSON.stringify(response.data.user);
+        $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
+      });
+  };  
+
+}]);
+
+app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$auth', function($scope, $rootScope, $window, $auth){
+
+    $scope.facebookLogin = function() {
+      $auth.authenticate('facebook')
+        .then(function(response) {
+          $window.localStorage.currentUser = JSON.stringify(response.data.user);
+          $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
+        })
+        .catch(function(response) {
+          console.log(response.data);
+        });
+    };
+    $scope.emailLogin = function() {
+      $auth.login({ email: $scope.email, password: $scope.password })
+        .then(function(response) {
+          $window.localStorage.currentUser = JSON.stringify(response.data.user);
+          $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
+        })
+        .catch(function(response) {
+          $scope.errorMessage = {};
+          angular.forEach(response.data.message, function(message, field) {
+            $scope.loginForm[field].$setValidity('server', false);
+            $scope.errorMessage[field] = response.data.message[field];
+          });
+        });
+    };    
+}]);
+
+app.controller('Signup', ['$scope', function($scope){
 
 }]);
 
