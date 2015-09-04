@@ -3,7 +3,7 @@ var mongoose = require("mongoose"),
 	bcrypt = require("bcrypt"),
 	salt = bcrypt.genSaltSync(10);
 
-var Comment = require("./comment.js");
+// var Comment = require("./comment.js");
 var Business = require("./business.js");
 
 
@@ -11,7 +11,7 @@ var UserSchema = new Schema({
 	email: {type: String, required: true},
 	passwordDigest: {type: String, required: true},
 	points: Number,
-	comments: [Comment.schema],
+	// comments: [Comment.schema],
 	favorites: [{
 		type: Schema.Types.ObjectId,
 		ref: "Business"

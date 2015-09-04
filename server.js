@@ -34,9 +34,9 @@ var client = yelp.createClient({
  
 // See http://www.yelp.com/developers/documentation/v2/search_api 
 
-app.get('/api/search', function (req,res) {
+app.post('/api/search/:s', function (req,res) {
 	client.search({
-	  term: "brunch",
+	  term: req.body.term,
 	  location: "San Francisco",
 	}).then(function (data) {
 	  var businesses = data.businesses;
@@ -45,6 +45,7 @@ app.get('/api/search', function (req,res) {
 	  // ...  
 	});
 });
+
 
 app.get("/testing", function(req, res) {
 	res.send("working");

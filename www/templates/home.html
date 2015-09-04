@@ -24,7 +24,7 @@
   </ion-tabs>
 <ion-content>
 
-  <div ng-repeat="spot in spots | orderBy: 'name'">
+  <div ng-repeat="spot in spots">
     <a ng-href="/business/{{spot.id}}">
       <div class="item item-text-wrap namecard" >
         <h2>{{spot.name}}<h2>
