@@ -129,7 +129,6 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', function($scope, $rootScope)
             $scope.objMapa.setZoom(15);
             $scope.objMapa.setCenter(center);
          };
-}]);  
 
   $scope.isAuthenticated = function() {
     //check if user is logged in
@@ -159,8 +158,8 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$auth', functio
           console.log(response.data);
         });
     };
-    $scope.emailLogin = function() {
-      $auth.login({ email: $scope.email, password: $scope.password })
+    $scope.emailLogin = function(sec) {
+      $auth.login({ email: sec.email, password: sec.password })
         .then(function(response) {
           $window.localStorage.currentUser = JSON.stringify(response.data.user);
           $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
@@ -175,7 +174,21 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$auth', functio
     };    
 }]);
 
-app.controller('Signup', ['$scope', function($scope){
+app.controller('SignupCtrl', ['$scope', '$auth', function($scope, $auth){
+
+  $scope.signup = function(sec) {
+    var user = {
+      email: sec.email,
+      password: sec.password
+    };
+
+    console.log(user);
+    // Satellizer
+    $auth.signup(user)
+      .catch(function(response) {
+        console.log(response.data);
+      });
+  };
 
 }]);
 

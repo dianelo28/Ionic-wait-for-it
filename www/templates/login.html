@@ -1,22 +1,22 @@
 <ion-content>
 <div class="boneyard">
 	<p class='col form-title' align='center'>Login</p>
-	<form name ="LoginForm" ng-submit="emailLogin()">
+	<form name ="LoginForm" ng-submit="emailLogin(sec)">
 		<div class="list">
 		  <label class="item item-input">
 		    <span class="input-label">email</span>
-		    <input type="email" ng-model="email">
+		    <input type="email" ng-model="sec.email">
 		  </label>
 		  <label class="item item-input">
 		    <span class="input-label">password</span>
-		    <input type="password" ng-model="password">
+		    <input type="password" ng-model="sec.password">
 		  </label>
   		</div>
 	  	<input type="submit" class=" col col-33 col-offset-33 button start" value="Login">
 
 	  	<br>
           <p class="text-center text-muted">
-            <small>Don't have an account yet? <a href="#/signup">Sign up</a></small>
+            <small>Don't have an account yet? <a href="/signup">Sign up</a></small>
           </p>
 
 		<div class="signup-or-separator">
