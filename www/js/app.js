@@ -13,8 +13,18 @@ app.config(['$ionicConfigProvider', "$authProvider", function($ionicConfigProvid
     $authProvider.loginUrl = 'http://localhost:3000/auth/login';
     $authProvider.signupUrl = 'http://localhost:3000/auth/signup';
     $authProvider.facebook({
-      clientId: '865103580253448'
+      clientId: '865103580253448',
+      url: 'http://localhost:3000/auth/facebook',
+      authorizationEndpoint: 'https://www.facebook.com/v2.3/dialog/oauth',
+      redirectUri: (window.location.origin || window.location.protocol + '//' + window.location.host) + '/',
+      requiredUrlParams: ['display', 'scope'],
+      scope: ['email'],
+      scopeDelimiter: ',',
+      display: 'popup',
+      type: '2.0',
+      popupOptions: { width: 580, height: 400 }
     });
+
 
 }]);
 

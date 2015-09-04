@@ -119,7 +119,7 @@ app.post('/auth/facebook', function(req, res) {
   var params = {
     code: req.body.code,
     client_id: req.body.clientId,
-    client_secret: config.FACEBOOK_SECRET,
+    client_secret: "3d3329ef0e76d9c989b3483874c322bd",
     redirect_uri: req.body.redirectUri
   };
 
