@@ -125,7 +125,13 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', function($scope, $rootScope)
          };
 }]);
 
-app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', function($scope, $rootScope, $ionicModal){
+app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$routeParams', function($scope, $rootScope, $ionicModal, $http, $routeParams){
+  $http.get('/api/business/' + $routeParams.id)
+      .then(function(response){
+        $scope.spot = response.data;
+        console.log($scope.spot)
+      });
+
   $ionicModal.fromTemplateUrl('my-modal.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -151,15 +157,11 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', function($scop
     // Execute action
   });
 
-  $scope.waitTime = function(business, wait){
-    $scope.wait.value = $scope.amt
-
-    business.wait.push(
-        time: $scope.wait.value
-        time: new Date()
-      )
-    }
-
+  // $scope.waitTime = function(business, wait){
+  //   $http.put('http://localhost:3000/api/search/' + s.term, s)
+  //     .then(function(response){
+  //     });
+  //   };  
 }]);
 
 app.run(function($ionicPlatform) {

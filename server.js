@@ -46,6 +46,19 @@ app.post('/api/search/:s', function (req,res) {
 	});
 });
 
+app.get('/api/business/:id', function (req,res) {
+	console.log(req.params.id)
+	client.search({
+	  term: req.params.id,
+	  location: "San Francisco",
+	}).then(function (data) {
+	  var businesses = data.businesses;
+	  var location = data.region;
+	  res.json(businesses);
+	  // ...  
+	});
+});
+
 
 app.get("/testing", function(req, res) {
 	res.send("working");
