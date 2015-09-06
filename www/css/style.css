@@ -105,3 +105,7 @@ body{
   margin: 0;
   background-color: #fff;
 }
+
+.card a{
+	font-size: 10px;
+}
