@@ -22,10 +22,9 @@
     </ion-tab>
 
   </ion-tabs>
-<ion-content>
-
+<div ng-if="!isAuthenticated()">
   <div ng-repeat="spot in spots">
-    <a ng-href="/business/{{spot.id}}">
+      <a ng-href="/login">
       <div class="item item-text-wrap namecard" >
         <h2>{{spot.name}}<h2>
           <a href='javascript:void(0)'><i ng-class="{'ion-ios-heart-outline' : !fav, 'ion-ios-heart' : fav}" ng-click='fav = !fav'></i></a>
@@ -33,5 +32,17 @@
       </div>
     </a>
   </div>
+</div>
+<div ng-if="isAuthenticated()">
+  <div ng-repeat="spot in spots">
+      <a ng-href="/business/{{spot.id}}">
+      <div class="item item-text-wrap namecard" >
+        <h2>{{spot.name}}<h2>
+          <a href='javascript:void(0)'><i ng-class="{'ion-ios-heart-outline' : !fav, 'ion-ios-heart' : fav}" ng-click='fav = !fav'></i></a>
+        <p>{{spot.location.display_address[0]}}, {{spot.location.display_address[2]}}</p>
+      </div>
+    </a>
+  </div>
+</div>
 
 </ion-content>
