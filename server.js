@@ -206,6 +206,16 @@ app.post('/api/search/:s', function (req,res) {
 	  var location = data.region;
 	  res.json(businesses);
 	  // ...  
+    _.each(businesses, function(business) {
+      Business.findOne({business_id: business.id}, function(err, found) {
+        if (!found) {
+          var newBusiness = new Business({
+            business_id: business.id
+          });
+          newBusiness.save();
+        }
+      })
+    })
 	});
 });
 
