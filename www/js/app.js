@@ -55,9 +55,8 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         })
         .when('/business/:id',{
             templateUrl: '/templates/business.html',
-            controller: 'MainCtrl',
+            controller: 'BizCtrl',
             requireAuth: true
-
         })
         .when('/favorites',{
             templateUrl: '/templates/favorites.html',
@@ -160,12 +159,52 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth', function($scope, $r
             $scope.objMapa.setZoom(15);
             $scope.objMapa.setCenter(center);
          };
-
-  $scope.isAuthenticated = function() {
+         
+    $scope.isAuthenticated = function() {
     //check if user is logged in
     console.log($auth.isAuthenticated());
     return $auth.isAuthenticated();
   };
+
+}]);
+
+app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$routeParams', function($scope, $rootScope, $ionicModal, $http, $routeParams){
+  $http.get('/api/business/' + $routeParams.id)
+      .then(function(response){
+        $scope.spot = response.data;
+        console.log($scope.spot)
+      });
+
+  $ionicModal.fromTemplateUrl('my-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+  // $scope.waitTime = function(business, wait){
+  //   $http.put('http://localhost:3000/api/search/' + s.term, s)
+  //     .then(function(response){
+  //     });
+  //   };  
 
   $scope.linkFacebook = function() {
     // connect email account with instagram
@@ -234,7 +273,6 @@ app.controller('SignupCtrl', ['$scope', '$auth', '$location','$window','$rootSco
   };
 
 }]);
-
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
