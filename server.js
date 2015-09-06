@@ -210,15 +210,21 @@ app.post('/api/search/:s', function (req,res) {
 
 app.get('/api/business/:id', function (req,res) {
 	console.log(req.params.id)
-	client.search({
-	  term: req.params.id,
-	  location: "San Francisco",
-	}).then(function (data) {
-	  var businesses = data.businesses;
-	  var location = data.region;
-	  res.json(businesses);
-	  // ...  
-	});
+	// client.search({
+	//   term: req.params.id,
+	//   location: "San Francisco",
+	// }).then(function (data) {
+	//   var businesses = data.businesses;
+	//   var location = data.region;
+	//   res.json(businesses);
+	//   // ...  
+	// });
+
+  client.business(req.params.id, {
+    cc: "US"
+  }).then(function(data) {
+    res.json(data);
+  });
 });
 
 

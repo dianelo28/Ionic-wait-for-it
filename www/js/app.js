@@ -169,7 +169,7 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth', function($scope, $r
 }]);
 
 app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$routeParams', function($scope, $rootScope, $ionicModal, $http, $routeParams){
-  $http.get('/api/business/' + $routeParams.id)
+  $http.get('http://localhost:3000/api/business/' + $routeParams.id)
       .then(function(response){
         $scope.spot = response.data;
         console.log($scope.spot)
