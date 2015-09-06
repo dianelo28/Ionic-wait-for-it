@@ -32,20 +32,50 @@
   <div class="row responsive-sm">
     <div class="card col col-32">
       <h3 align="center"> 2 people </h3>
-      <h1 align="center"> 10 minutes </h1>
+      <h1 align="center" ng-model="twoWait"> {{wait.twoWait}} </h1>
+      <small><span am-time-ago="wait.time"></span></small>
+      <a href='javascript:void(0)' ng-click="modal.show()">Update wait time</a>
+
     </div>
     <div class="card col col-33">
       <h3 align="center"> 3-4 people </h3>
-      <h1 align="center"> 10 minutes </h1>
+      <h1 align="center" ng-model="fourWait"> {{wait.fourWait}} </h1>
+      <small><span am-time-ago="wait.time"></span></small>
+      <a href='javascript:void(0)' ng-click="modal.show()">Update wait time</a>
+
     </div>
     <div class="card col col-32">
       <h3 align="center"> 5+ people </h3>
-      <h1 align="center"> 10 minutes </h1>
+      <h1 align="center" ng-model="fiveWait"> {{wait.fiveWait}} </h1>
+      <small><span am-time-ago="wait.time"></span></small>
+      <a href='javascript:void(0)' ng-click="modal.show()">Update wait time</a>
     </div>
   </div>
 
   <div class="col" align="center">
     <h1>Comments/photos</h1>
   </div>
+
+  <script id="my-modal.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar>
+        <h1 class="title">Update current wait time </h1> <a href='javascript:void(0)'><span class="close-modal" ng-click="modal.hide()">x</span></a>
+      </ion-header-bar>
+      <ion-content>
+        <form ng-submit='waitTime(business, wait)'>
+          <p>Party size: </p>
+          <ion-radio ng-model="wait.amt" value="twoWait">1-2 people</ion-radio>
+          <ion-radio ng-model="wait.amt" value="fourWait">3-4 people</ion-radio>
+          <ion-radio ng-model="wait.amt" value="fiveWait">5+ people</ion-radio>
+
+          <label class="item item-input">
+            <input type="tel" ng-model='wait.quote' placeholder="Quoted Wait Time">
+          </label>
+
+          <input type="submit" class='col col-33 col-offset-33 start' align='center' value="Submit" >
+        </form>
+      </ion-content>
+    </ion-modal-view>
+  </script>
 
 </ion-content>

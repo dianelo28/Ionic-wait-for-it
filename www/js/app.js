@@ -33,7 +33,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         })
         .when('/business/:id',{
             templateUrl: '/templates/business.html',
-            controller: 'MainCtrl'
+            controller: 'BizCtrl'
 
         })
         .when('/favorites',{
@@ -123,7 +123,44 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', function($scope, $rootScope)
             $scope.objMapa.setZoom(15);
             $scope.objMapa.setCenter(center);
          };
-}])
+}]);
+
+app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', function($scope, $rootScope, $ionicModal){
+  $ionicModal.fromTemplateUrl('my-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+  $scope.waitTime = function(business, wait){
+    $scope.wait.value = $scope.amt
+
+    business.wait.push(
+        time: $scope.wait.value
+        time: new Date()
+      )
+    }
+
+}]);
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
