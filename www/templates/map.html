@@ -1,10 +1,10 @@
 <!-- Center content -->
 <!-- Center content -->
-  <ion-header-bar class="bar bar-header bar-dark">      
+  <ion-header-bar class="bar bar-header">      
     <h1 class="title">Wait for it...</h1>
   </ion-header-bar>
 
-  <ion-tabs class="tabs-dark tabs-icon-only">
+  <ion-tabs class="tabs-default tabs-icon-top">
 
     <ion-tab title="Home" icon-on="ion-ios-home" icon-off="ion-ios-home" href="/home">
       <!-- Tab 1 content -->
@@ -25,6 +25,9 @@
   </ion-tabs>
 
 <ion-content>
+    <label class="item item-input">
+      <input type="search" ng-model="q" placeholder="filter neighborhood, name, etc...">
+    </label>
 	<map center="37.763830, -122.444813" zoom="13">
 		<marker ng-repeat="spot in spots | filter:q as results" position="{{spot.location.coordinate.latitude}},{{spot.location.coordinate.longitude}}" on-click="showInfoWindow(event, spot)"></marker>
 	</map>

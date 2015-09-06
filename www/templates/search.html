@@ -1,21 +1,25 @@
 <ion-content>
+
+<div class='row row-top'>
+	<h1 class='col search' align='center'>Wait for it...</h1>
+</div>
+
 <div class="boneyard">
-	<p class='col form-title' align='center'>Search</p><br>
+	<p class='col form-title' align='center'>Get started by searching for where you want to go!</p><br>
 	<div class="list">
 		<form ng-submit="search(s)">
 		  <label class="item item-input">
-		    <input type="text" ng-model="s.term" placeholder="Restaurant, neighborhood, etc.">
+		    <input type="text" id="searchBar" ng-model="s.term" placeholder="Restaurant, neighborhood, etc.">
 		  </label>
-
 		  <div class='row row-bottom'>
 		  	<input type="submit" class='col col-33 col-offset-33 start' align='center' value="Submit" >
-		  	<a href="/home">home</a>
+<!-- 		  	<a href="/home">home</a> -->
 		  </div>
 
 		</form>
 	</div>
 
-<a href="/signup">signup</a>
-<a href="/login">signup</a>
+<!-- <a href="/signup">signup</a>
+<a href="/login">signup</a> -->
 </div>
 </ion-content>

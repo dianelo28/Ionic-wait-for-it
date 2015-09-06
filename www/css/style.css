@@ -10,41 +10,79 @@ a{
 	text-decoration: none;
 }
 
+.bar{
+	background: #74AFAD
+}
+
+.tabs{
+	background: #74AFAD
+}
+
 #title{
 	margin-top: 30vh;
-	color: #f3ffe2;
+	color: #558C89;
+	font-family: 'Carter One'; cursive;
+}
+
+.title{
+	color: #ECECEA;
+	font-family: 'Carter One'; cursive;
+}
+
+h1.search{
+	margin-top: 10vh;
+	color: #558C89;
+	font-family: 'Carter One';
 }
 
 #explanation{
 	margin-bottom: 50px;
 	margin-top: 20px;
-	color: #f3ffe2;
+	color: black;
 	font-size: 20px;
 }
 .start{
-	background: #eb7f00;
+	background: #DE752A;
+	margin-top: 20px;
+}
+
+i{
+	color: #FF6600;
+	font-weight: bold;
 }
 
 body{
-	background: #1695a3;
+	background: #ECECEA;
 }
 
 
 .namecard i{
 	float: right;
 	font-size: 20px;
+	font-weight: bold
+}
+.namecard{
+	background: #ECECEA
 }
 
+.namecard p{
+	color: black;
+}
 
 .boneyard{
-	margin-top: 20vh;
+	margin-top: 10vh;
 	padding-top: 5vh;
 	padding-bottom: 100%;
-	background: #f3ffe2;
+	background: #74AFAD;
 }
 
 .form-title{
 	margin-bottom: 10px;
+}
+
+#searchBar{
+	margin-bottom: 20px;
+	text-align: center
 }
 
 .signup-or-separator {
@@ -66,4 +104,8 @@ body{
   padding: 8px;
   margin: 0;
   background-color: #fff;
+}
+
+.card a{
+	font-size: 10px;
 }
