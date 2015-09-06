@@ -60,7 +60,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         })
         .when('/favorites',{
             templateUrl: '/templates/favorites.html',
-            controller: 'MainCtrl',
+            controller: 'FavCtrl',
             requireAuth: true
 
         })
@@ -101,12 +101,6 @@ app.run(["$rootScope", "$location", "$auth", function($rootScope, $location, $au
     })
 }])
 
-// app.service('YelpSearch', ['$resource', function($resource) {
-//     return $resource('http://localhost:3000/api/search');
-// }]);
-
-
-
 app.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$location', '$auth', function($scope, $rootScope, $http, $location, $auth){
 
   $scope.search = function (s){
@@ -136,7 +130,7 @@ app.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$location', '$auth
 
 }]);
 
-app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth', function($scope, $rootScope, $auth){
+app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth','$http', function($scope, $rootScope, $auth, $http){
 
   $rootScope.spots = $scope.spots;
 
@@ -166,6 +160,22 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth', function($scope, $r
     return $auth.isAuthenticated();
   };
 
+  $scope.favorites = function(spot) {
+    var temp = JSON.parse(localStorage.currentUser);
+    temp.favorites.push({id: spot.id, name: spot.name, address1:spot.location.display_address[0], address2:spot.location.display_address[2]});
+    localStorage.setItem("currentUser", JSON.stringify(temp));
+
+    userid = JSON.parse(localStorage.currentUser)._id;
+    $http.put('http://localhost:3000/api/'+userid+'/favorites', {id: spot.id})
+      .then(function(response){
+        console.log("response from favorites: " + response);
+      });
+  };
+
+}]);
+
+app.controller('FavCtrl', ['$scope', function($scope) {
+  $scope.favspots = JSON.parse(localStorage.currentUser).favorites;
 }]);
 
 app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$routeParams', function($scope, $rootScope, $ionicModal, $http, $routeParams){

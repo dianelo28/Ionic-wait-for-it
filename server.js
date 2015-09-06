@@ -8,7 +8,8 @@ var express = require('express'),
 	jwt = require('jwt-simple'),
 	moment = require('moment'),
 	path = require('path'),
-	request = require('request');
+	request = require('request'),
+  _=require('underscore');
 
 var User = require("./models/user.js"),
 	Comment = require("./models/comment.js"),
@@ -210,15 +211,6 @@ app.post('/api/search/:s', function (req,res) {
 
 app.get('/api/business/:id', function (req,res) {
 	console.log(req.params.id)
-	// client.search({
-	//   term: req.params.id,
-	//   location: "San Francisco",
-	// }).then(function (data) {
-	//   var businesses = data.businesses;
-	//   var location = data.region;
-	//   res.json(businesses);
-	//   // ...  
-	// });
 
   client.business(req.params.id, {
     cc: "US"
@@ -227,9 +219,37 @@ app.get('/api/business/:id', function (req,res) {
   });
 });
 
+app.put('/api/:userid/favorites', function(req, res){
+  var userid = {_id:req.params.userid};
+  var businessid = {business_id:req.body.id};
+
+  Business.findOne(businessid, function(err, found_business) {
+    if (found_business) {
+      User.findOne(userid, function(err, found_user) {
+        console.log(found_user);
+        found_user.favorites.push(found_business);
+        found_user.save();
+        res.json(found_user);
+      });
+    } else {
+      var newBusiness= new Business({
+        business_id: req.body.id
+      });
+      newBusiness.save(function(err, saved){
+        User.findOne(userid, function(err, found_user) {
+          found_user.favorites.push(newBusiness);
+          found_user.save();
+          res.json(found_user);
+        });
+      });
+    };
+  });
+});
 
 app.get("/testing", function(req, res) {
-	res.send("working");
+	Business.find({}, function(err, found) {
+    res.json(found);
+  })
 });
 
 // listen on port 3000
