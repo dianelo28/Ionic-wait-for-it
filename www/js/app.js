@@ -55,13 +55,8 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         })
         .when('/business/:id',{
             templateUrl: '/templates/business.html',
-<<<<<<< HEAD
-            controller: 'BizCtrl'
-=======
-            controller: 'MainCtrl',
+            controller: 'BizCtrl',
             requireAuth: true
->>>>>>> 0c64c1949d03614b9e4a48d3610958e31bb6cfb4
-
         })
         .when('/favorites',{
             templateUrl: '/templates/favorites.html',
@@ -164,6 +159,13 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth', function($scope, $r
             $scope.objMapa.setZoom(15);
             $scope.objMapa.setCenter(center);
          };
+         
+    $scope.isAuthenticated = function() {
+    //check if user is logged in
+    console.log($auth.isAuthenticated());
+    return $auth.isAuthenticated();
+  };
+
 }]);
 
 app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$routeParams', function($scope, $rootScope, $ionicModal, $http, $routeParams){
@@ -203,13 +205,6 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$rou
   //     .then(function(response){
   //     });
   //   };  
-}]);
-
-  $scope.isAuthenticated = function() {
-    //check if user is logged in
-    console.log($auth.isAuthenticated());
-    return $auth.isAuthenticated();
-  };
 
   $scope.linkFacebook = function() {
     // connect email account with instagram
