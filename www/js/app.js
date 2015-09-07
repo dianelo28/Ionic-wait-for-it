@@ -156,21 +156,30 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth','$http', function($s
          
     $scope.isAuthenticated = function() {
     //check if user is logged in
-    console.log($auth.isAuthenticated());
     return $auth.isAuthenticated();
   };
 
   $scope.favorites = function(spot) {
-    var temp = JSON.parse(localStorage.currentUser);
-    temp.favorites.push({id: spot.id, name: spot.name, address1:spot.location.display_address[0], address2:spot.location.display_address[2]});
-    localStorage.setItem("currentUser", JSON.stringify(temp));
-
+    if (JSON.parse(localStorage.currentUser).favorites.indexOf(spot.id) != -1) {
+      console.log("already favorited, dont forget to code delete route");
+    } else {
     userid = JSON.parse(localStorage.currentUser)._id;
-    $http.put('http://localhost:3000/api/'+userid+'/favorites', {id: spot.id})
-      .then(function(response){
-        console.log("response from favorites: " + response);
-      });
+      $http.put('http://localhost:3000/api/'+userid+'/favorites', {id: spot.id})
+        .then(function(response){
+          var temp = JSON.parse(localStorage.currentUser);
+          temp.favorites.push(response.data);
+          localStorage.setItem("currentUser", JSON.stringify(temp));
+        });
+    };  
   };
+
+  $scope.checkFavorites = function(spot) {
+    if (_.findWhere(JSON.parse(localStorage.currentUser).favorites, {business_id: spot.id}) != undefined) {
+      return "ion-ios-heart";
+    } else {
+      return "ion-ios-heart-outline";
+    }
+  }
 
 }]);
 

@@ -28,7 +28,7 @@
       <a ng-href="/login">
       <div class="item item-text-wrap namecard" >
         <h2>{{spot.name}}<h2>
-          <a href='javascript:void(0)'><i ng-class="{'ion-ios-heart-outline' : !fav, 'ion-ios-heart' : fav}" ng-click='favorites(spot)'></i></a>
+          <a href='/login'><i class="ion-ios-heart-outline"></i></a>
         <p>{{spot.location.display_address[0]}}, {{spot.location.display_address[2]}}</p>
       </div>
     </a>
@@ -39,7 +39,7 @@
       <a ng-href="/business/{{spot.id}}">
       <div class="item item-text-wrap namecard" >
         <h2>{{spot.name}}<h2>
-          <a href='javascript:void(0)'><i ng-class="{'ion-ios-heart-outline' : !fav, 'ion-ios-heart' : fav}" ng-click='fav = !fav; favorites(spot)'></i></a>
+          <a href='javascript:void(0)'><i ng-class="checkFavorites(spot)" ng-click='fav = !fav; favorites(spot)'></i></a>
         <p>{{spot.location.display_address[0]}}, {{spot.location.display_address[2]}}</p>
       </div>
     </a>
