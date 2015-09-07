@@ -30,7 +30,7 @@
         <h2>{{favspot.name}}<h2>
           <a href='javascript:void(0)'><i ng-class="{'ion-ios-heart' : !fav, 
           'ion-ios-heart-outline' : fav}" ng-click='fav = !fav'></i></a>
-        <p>{{favspot.address1}}, {{favspot.address2}}</p>
+        <p>{{favspot.location.display_address[0]}}, {{favspot.location.display_address[2]}}</p>
       </div>
     </a>
   </div>

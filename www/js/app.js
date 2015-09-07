@@ -160,8 +160,17 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth','$http', function($s
   };
 
   $scope.favorites = function(spot) {
-    if (JSON.parse(localStorage.currentUser).favorites.indexOf(spot.id) != -1) {
-      console.log("already favorited, dont forget to code delete route");
+    if (_.findWhere(JSON.parse(localStorage.currentUser).favorites, {business_id: spot.id}) != undefined) {
+      var temp = JSON.parse(localStorage.currentUser);
+      var index = temp.favorites.indexOf(_.findWhere(JSON.parse(localStorage.currentUser).favorites, {business_id: spot.id}));
+      temp.favorites.splice(index, 1);
+      localStorage.setItem("currentUser", JSON.stringify(temp));     
+       
+      userid = JSON.parse(localStorage.currentUser)._id;
+      $http.delete('http://localhost:3000/api/'+userid+"/favorites", {id: spot.id})
+        .then(function(response){
+          console.log(response);
+        });
     } else {
     userid = JSON.parse(localStorage.currentUser)._id;
       $http.put('http://localhost:3000/api/'+userid+'/favorites', {id: spot.id})
@@ -183,8 +192,15 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth','$http', function($s
 
 }]);
 
-app.controller('FavCtrl', ['$scope', function($scope) {
-  $scope.favspots = JSON.parse(localStorage.currentUser).favorites;
+app.controller('FavCtrl', ['$scope','$routeParams','$http', function($scope, $routeParams, $http) {
+  $scope.favspots = [];
+  var favArray = JSON.parse(localStorage.currentUser).favorites;
+  _.each(favArray, function(bizId){
+    $http.get('http://localhost:3000/api/business/' + bizId.business_id)
+      .then(function(response){
+        $scope.favspots.push(response.data);
+      });
+  });
 }]);
 
 app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$routeParams', function($scope, $rootScope, $ionicModal, $http, $routeParams){
