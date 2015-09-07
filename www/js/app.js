@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 
-var app = angular.module('wait', ['ionic', 'ngMap', 'angularMoment', 'ngRoute', 'satellizer']);
+var app = angular.module('wait', ['ionic', 'ngMap', 'angularMoment', 'ngRoute', 'satellizer', 'ngCordova']);
 
 app.config(['$ionicConfigProvider', "$authProvider", function($ionicConfigProvider, $authProvider) {
 
@@ -187,11 +187,43 @@ app.controller('FavCtrl', ['$scope', function($scope) {
   $scope.favspots = JSON.parse(localStorage.currentUser).favorites;
 }]);
 
-app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$routeParams', function($scope, $rootScope, $ionicModal, $http, $routeParams){
+app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$routeParams', '$cordovaGeolocation', function($scope, $rootScope, $ionicModal, $http, $routeParams, $cordovaGeolocation){
   $http.get('http://localhost:3000/api/business/' + $routeParams.id)
       .then(function(response){
         $scope.spot = response.data;
         console.log($scope.spot)
+
+          $scope.checkLocation = function(){
+            var posOptions = {timeout: 10000, enableHighAccuracy: false};
+              $cordovaGeolocation
+                .getCurrentPosition(posOptions)
+                .then(function (position) {
+                  var lat  = position.coords.latitude;
+                  var long = position.coords.longitude;
+                  console.log(position)
+
+                  var spotCoord = {
+                    latitude: $scope.spot.location.coordinate.latitude, 
+                    longitude: $scope.spot.location.coordinate.longitude
+                  }
+
+                  console.log(spotCoord)
+                    if (lat == spotCoord.latitude && long == spotCoord.longitude)
+                      $scope.waitTime = function(business){
+                        $http.put('http://localhost:3000/api/business/' + $routeParams.id, business)
+                          .then(function(response){
+                            console.log(response.data)
+                            $scope.business = response.data;
+                            $scope.modal.hide();
+                          });
+                        };
+                    else 
+                      alert("Sorry, it doesn't seem like you're at the right place!");
+                },
+                function (err) {
+                  alert('Please allow access to location to enter a wait time')
+                });
+          };
       });
 
   $ionicModal.fromTemplateUrl('my-modal.html', {
@@ -218,15 +250,7 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$rou
   $scope.$on('modal.removed', function() {
     // Execute action
   });
-
-  $scope.waitTime = function(business){
-    $http.put('http://localhost:3000/api/business/' + $routeParams.id, business)
-      .then(function(response){
-        console.log(response.data)
-        $scope.business = response.data;
-        $scope.modal.hide();
-      });
-    };  
+      
 
   $scope.linkFacebook = function() {
     // connect email account with instagram
@@ -306,5 +330,7 @@ app.run(function($ionicPlatform) {
     if(window.StatusBar) {
       StatusBar.styleDefault();
     };
+
+    // $cordovaPlugin.someFunction().then(success, error);
   });
 });
