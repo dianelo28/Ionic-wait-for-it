@@ -28,7 +28,10 @@
     <label class="item item-input">
       <input type="search" ng-model="q" placeholder="filter neighborhood, name, etc...">
     </label>
-	<map center="37.763830, -122.444813" zoom="13">
+	<map center="current location" zoom="13">
+    <info-window position="current-location" visible="true">
+      <span>You are here!</span>
+    </info-window>
 		<marker ng-repeat="spot in spots | filter:q as results" position="{{spot.location.coordinate.latitude}},{{spot.location.coordinate.longitude}}" on-click="showInfoWindow(event, spot)"></marker>
 	</map>
 </ion-content>
