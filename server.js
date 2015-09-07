@@ -220,7 +220,6 @@ app.post('/api/search/:s', function (req,res) {
 });
 
 app.get('/api/business/:id', function (req,res) {
-	console.log(req.params.id)
 
   client.business(req.params.id, {
     cc: "US"
@@ -229,7 +228,23 @@ app.get('/api/business/:id', function (req,res) {
   });
 });
 
-app.put('/api/:userid/favorites', function(req, res){
+app.put('/api/business/:id', function (req,res){
+	var bizId = {business_id:req.params.id};
+
+	Business.findOne(bizId, function(err, foundBiz){
+		console.log(foundBiz);
+		{foundBiz.twoWait = req.body.twoWait, 
+		foundBiz.fourWait = req.body.fourWait,
+		foundBiz.fiveWait = req.body.fiveWait}
+		
+		foundBiz.save(function(err, savedBiz){
+			console.log(savedBiz);
+			res.json(savedBiz)
+		});
+	});
+});
+
+app.put('/api/:userid/favorites', function (req, res){
   var userid = {_id:req.params.userid};
   var businessid = {business_id:req.body.id};
 

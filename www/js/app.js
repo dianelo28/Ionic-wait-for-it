@@ -210,11 +210,14 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$rou
     // Execute action
   });
 
-  // $scope.waitTime = function(business, wait){
-  //   $http.put('http://localhost:3000/api/search/' + s.term, s)
-  //     .then(function(response){
-  //     });
-  //   };  
+  $scope.waitTime = function(business){
+    $http.put('http://localhost:3000/api/business/' + $routeParams.id, business)
+      .then(function(response){
+        console.log(response.data)
+        $scope.business = response.data;
+        $scope.modal.hide();
+      });
+    };  
 
   $scope.linkFacebook = function() {
     // connect email account with instagram
