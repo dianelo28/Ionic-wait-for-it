@@ -24,12 +24,11 @@
   </ion-tabs>
 <ion-content>
 
-  <div ng-repeat="favspot in favspots | orderBy: 'name'">
+  <div ng-repeat="favspot in favspots">
     <a ng-href="/business/{{favspot.id}}">
       <div class="item item-text-wrap namecard" >
         <h2>{{favspot.name}}<h2>
-          <a href='javascript:void(0)'><i ng-class="{'ion-ios-heart' : !fav, 
-          'ion-ios-heart-outline' : fav}" ng-click='fav = !fav'></i></a>
+          <a href='javascript:void(0)'><i ng-class="checkFavorites(favspot)" ng-click='fav = !fav; favorites(favspot)'></i></a>
         <p>{{favspot.location.display_address[0]}}, {{favspot.location.display_address[2]}}</p>
       </div>
     </a>

@@ -169,7 +169,7 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth','$http', function($s
       userid = JSON.parse(localStorage.currentUser)._id;
       $http.delete('http://localhost:3000/api/'+userid+"/favorites", {id: spot.id})
         .then(function(response){
-          console.log(response);
+          console.log(response, "deleted success");
         });
     } else {
     userid = JSON.parse(localStorage.currentUser)._id;
@@ -192,15 +192,49 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth','$http', function($s
 
 }]);
 
-app.controller('FavCtrl', ['$scope','$routeParams','$http', function($scope, $routeParams, $http) {
+app.controller('FavCtrl', ['$scope','$http', function($scope, $http) {
   $scope.favspots = [];
+
   var favArray = JSON.parse(localStorage.currentUser).favorites;
   _.each(favArray, function(bizId){
     $http.get('http://localhost:3000/api/business/' + bizId.business_id)
       .then(function(response){
         $scope.favspots.push(response.data);
+        console.log($scope.favspots);
       });
   });
+
+  $scope.favorites = function(spot) {
+    if (_.findWhere(JSON.parse(localStorage.currentUser).favorites, {business_id: spot.id}) != undefined) {
+      var temp = JSON.parse(localStorage.currentUser);
+      var index = temp.favorites.indexOf(_.findWhere(temp.favorites, {business_id: spot.id}));
+      temp.favorites.splice(index, 1);
+      localStorage.setItem("currentUser", JSON.stringify(temp));
+
+      userid = JSON.parse(localStorage.currentUser)._id;
+      $http.delete('http://localhost:3000/api/'+userid+"/favorites", {id: spot.id})
+        .then(function(response){
+          console.log(response, "deleted success");
+        });
+    } else {
+      userid = JSON.parse(localStorage.currentUser)._id;
+        $http.put('http://localhost:3000/api/'+userid+'/favorites', {id: spot.id})
+          .then(function(response){
+            var temp = JSON.parse(localStorage.currentUser);
+            temp.favorites.push(response.data);
+            localStorage.setItem("currentUser", JSON.stringify(temp));
+          });
+    };
+  };
+
+  $scope.checkFavorites = function(spot) {
+    if (_.findWhere(JSON.parse(localStorage.currentUser).favorites, {business_id: spot.id}) != undefined) {
+      return "ion-ios-heart";
+    } else {
+      return "ion-ios-heart-outline";
+    }
+  };
+
 }]);
 
 app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$routeParams', function($scope, $rootScope, $ionicModal, $http, $routeParams){
