@@ -271,6 +271,19 @@ app.put('/api/:userid/favorites', function (req, res){
   });
 });
 
+app.delete('/api/:userid/favorites', function(req, res) {
+  var userid = {_id:req.params.userid};
+  var businessid = {business_id: req.body.id};
+
+  User.findOne(userid, function(err, found_user) {
+    var temp = _.findWhere(found_user.favorites, businessid);
+    var index = found_user.favorites.indexOf(temp);
+    found_user.favorites.splice(index, 1);
+    found_user.save();
+    res.json(found_user);
+  });
+});
+
 app.get("/testing", function(req, res) {
 	User.find({}, function(err, found) {
     res.json(found);
