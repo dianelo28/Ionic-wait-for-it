@@ -268,7 +268,7 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$rou
                           });
                         };
                     else 
-                      alert("Sorry, it doesn't seem like you're at the right place!");
+                      alert("Sorry, you need to be at the location to add a wait time!");
                 },
                 function (err) {
                   alert('Please allow access to location to enter a wait time')
