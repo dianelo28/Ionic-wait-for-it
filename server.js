@@ -80,7 +80,7 @@ app.get('/protected', isAuthenticated, function(req, res) {
 });
 
 app.post('/auth/login', function(req, res) {
-  User.findOne({ email: req.body.email }, '+password', function(err, user) {
+  User.findOne({ email: req.body.email }, '+password').populate("favorites").exec(function(err, user) {
     if (!user) {
       return res.status(401).send({ message: { email: 'Incorrect email' } });
     }
@@ -239,7 +239,7 @@ app.put('/api/:userid/favorites', function(req, res){
         console.log(found_user);
         found_user.favorites.push(found_business);
         found_user.save();
-        res.json(found_user);
+        res.json(found_business);
       });
     } else {
       var newBusiness= new Business({
@@ -249,7 +249,7 @@ app.put('/api/:userid/favorites', function(req, res){
         User.findOne(userid, function(err, found_user) {
           found_user.favorites.push(newBusiness);
           found_user.save();
-          res.json(found_user);
+          res.json(newBusiness);
         });
       });
     };
@@ -257,7 +257,7 @@ app.put('/api/:userid/favorites', function(req, res){
 });
 
 app.get("/testing", function(req, res) {
-	Business.find({}, function(err, found) {
+	User.find({}, function(err, found) {
     res.json(found);
   })
 });
