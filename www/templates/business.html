@@ -36,21 +36,21 @@
   <div class="row responsive-sm">
     <div class="card col col-32" align="center">
       <h4> 2 people </h4>
-      <h1 ng-model="twoWait"> {{wait.twoWait}} </h1>
+      <h1> {{business.twoWait}} </h1>
       <small><span am-time-ago="wait.time"></span></small>
       <a href='javascript:void(0)' ng-click="modal.show()">Update wait time</a>
 
     </div>
     <div class="card col col-33" align="center">
       <h4> 3-4 people </h4>
-      <h1 ng-model="fourWait"> {{wait.fourWait}} </h1>
+      <h1> {{business.fourWait}} </h1>
       <small><span am-time-ago="wait.time"></span></small>
       <a href='javascript:void(0)' ng-click="modal.show()">Update wait time</a>
 
     </div>
     <div class="card col col-32" align="center">
       <h4> 5+ people </h4>
-      <h1 ng-model="fiveWait"> {{wait.fiveWait}} </h1>
+      <h1> {{business.fiveWait}} </h1>
       <small><span am-time-ago="wait.time"></span></small>
       <a href='javascript:void(0)' ng-click="modal.show()">Update wait time</a>
     </div>
@@ -64,18 +64,47 @@
   <script id="my-modal.html" type="text/ng-template">
     <ion-modal-view>
       <ion-header-bar>
-        <h1 class="title">Update current wait time </h1> <a href='javascript:void(0)'><span class="close-modal" ng-click="modal.hide()">x</span></a>
+        <h1 class="title">Update current wait time for... </h1> <a href='javascript:void(0)'><span class="close-modal" ng-click="modal.hide()"><i class="ion-close"></i></span></a>
       </ion-header-bar>
       <ion-content>
-        <form ng-submit='waitTime(business, wait)'>
-          <p>Party size: </p>
-          <ion-radio ng-model="wait.amt" value="twoWait">1-2 people</ion-radio>
-          <ion-radio ng-model="wait.amt" value="fourWait">3-4 people</ion-radio>
-          <ion-radio ng-model="wait.amt" value="fiveWait">5+ people</ion-radio>
-
-          <label class="item item-input">
-            <input type="tel" ng-model='wait.quote' placeholder="Quoted Wait Time">
+        <div class="list">
+          <label class="item item-radio"><div class="item-content">
+              1-2 people
+            </div> 
+            <input id="twoWait" input type="radio" name="content" ng-model="content" value="two">
+            <i class="radio-icon ion-checkmark"></i>
           </label>
+
+          <label class= "item item-radio"> 
+            <div class="item-content">
+              3-4 people
+            </div> 
+            <input id="fourWait" input type="radio" name="content" ng-model="content" value="four">
+            <i class="radio-icon ion-checkmark"></i>
+          </label>
+
+          <label class="item item-radio"><div class="item-content">
+              5+ people
+            </div> 
+            <input id="fiveWait" input type="radio" name="content" ng-model="content" value="five">
+            <i class="radio-icon ion-checkmark"></i>
+          </label>
+        </div>
+
+        <form ng-submit='waitTime(business)'>
+
+          <label class="item item-input" ng-show="content == 'two'">
+            <input type="tel" ng-model='business.twoWait' placeholder="Quoted Wait Time for 1-2 people">
+          </label>
+
+          <label class="item item-input" ng-show="content == 'four'">
+            <input type="tel" ng-model='business.fourWait' placeholder="Quoted Wait Time for 3-4 people">
+          </label>
+
+          <label class="item item-input" ng-show="content == 'five'">
+            <input type="tel" ng-model='business.fiveWait' placeholder="Quoted Wait Time for 5+ people">
+          </label>
+
 
           <input type="submit" class='col col-33 col-offset-33 start' align='center' value="Submit" >
         </form>
