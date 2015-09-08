@@ -99,10 +99,14 @@
             <i class="radio-icon ion-checkmark"></i>
           </label>
 
-
-          <label class="item item-input">
-            <input type="tel" ng-model='business.wait' placeholder="Quoted Wait Time">
+        <div class="row">
+          <label class="item item-input col col-50">
+            <input type="tel" ng-model='business.hour' placeholder="Quoted Wait Time (hours)" max="3">
           </label>
+          <label class="item item-input col col-50">
+            <input type="tel" ng-model='business.minute' placeholder="Quoted Wait Time (minutes)" max="59">
+          </label>
+        </div>
 
           <input type="submit" class='col col-33 col-offset-33 start' align='center' value="Submit" >
         </form>

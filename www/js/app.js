@@ -258,11 +258,17 @@ app.controller('FavCtrl', ['$scope','$http', function($scope, $http) {
 app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$stateParams', '$cordovaGeolocation', function($scope, $rootScope, $ionicModal, $http, $stateParams, $cordovaGeolocation){
   $scope.work = [];
   $scope.spot = {};
+  $scope.business = {};
   //get business info
+  $http.get(host+'/api/waits/' + $stateParams.id)
+  .then(function(response){
+    $scope.business = response.data
+  });
+
   $http.get(host+'/api/business/' + $stateParams.id)
       .then(function(response){
         $scope.spot = response.data;
-        console.log($scope.spot)
+        console.log($scope.spot);
           //check location
           $scope.checkLocation = function(){
             var posOptions = {timeout: 10000, enableHighAccuracy: false};
@@ -282,8 +288,9 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
                   //check if user is close to location before letting them put in wait time
                     if (lat != spotCoord.latitude && long != spotCoord.longitude)
                       $scope.waitTime = function(business){
-                        console.log(business);
-                        $http.put(host+'/api/business/' + $stateParams.id, business)
+                        var waitMinutes = (parseInt(business.hour) * 60) + parseInt(business.minute);
+                        var biz = {party: business.party, wait: waitMinutes}
+                        $http.put(host+'/api/business/' + $stateParams.id, biz)
                           .then(function(response){
                             console.log(response.data)
                             $scope.business = response.data;
