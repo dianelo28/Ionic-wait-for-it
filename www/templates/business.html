@@ -58,7 +58,14 @@
 
   <div class="col" align="center">
     <h3>Comments/photos</h3>
+    <form name="comments" ng-submit="newComment(comment)">
+      <input type="text" ng-model="comment.content" placeholder="content"/>
+      <input type="submit" value="submit" class="button">
+    </form>
   </div>
+    <hr>
+    <div ng-repeat="test in work"><p>{{test.comments}}</p></div>
+    <hr>  
 </ion-content>
 
   <script id="my-modal.html" type="text/ng-template">
