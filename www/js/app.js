@@ -4,8 +4,8 @@ app.config(['$ionicConfigProvider', "$authProvider", function($ionicConfigProvid
 
     $ionicConfigProvider.tabs.position('bottom'); // other values: top
 
-    $authProvider.loginUrl = 'http://localhost:3000/auth/login';
-    $authProvider.signupUrl = 'http://localhost:3000/auth/signup';
+    $authProvider.loginUrl = 'http://waitforit.herokuapp.com/auth/login';
+    $authProvider.signupUrl = 'http://waitforit.herokuapp.com/auth/signup';
 }]);
 
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
@@ -98,7 +98,7 @@ app.run(function($ionicPlatform) {
 app.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$location', '$auth', function($scope, $rootScope, $http, $location, $auth){
 
   $scope.search = function (s){
-    $http.post('http://localhost:3000/api/search/' + s.term, s)
+    $http.post('http://waitforit.herokuapp.com/api/search/' + s.term, s)
       .then(function(response){
         $location.path('/home');
         $rootScope.spots = response.data;
@@ -142,13 +142,13 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth','$http', function($s
       localStorage.setItem("currentUser", JSON.stringify(temp));     
        
       userid = JSON.parse(localStorage.currentUser)._id;
-      $http.delete('http://localhost:3000/api/'+userid+"/favorites", {id: spot.id})
+      $http.delete('http://waitforit.herokuapp.com/api/'+userid+"/favorites", {id: spot.id})
         .then(function(response){
           console.log(response, "deleted success");
         });
     } else {
     userid = JSON.parse(localStorage.currentUser)._id;
-      $http.put('http://localhost:3000/api/'+userid+'/favorites', {id: spot.id})
+      $http.put('http://waitforit.herokuapp.com/api/'+userid+'/favorites', {id: spot.id})
         .then(function(response){
           var temp = JSON.parse(localStorage.currentUser);
           temp.favorites.push(response.data);
@@ -172,7 +172,7 @@ app.controller('FavCtrl', ['$scope','$http', function($scope, $http) {
 
   var favArray = JSON.parse(localStorage.currentUser).favorites;
   _.each(favArray, function(bizId){
-    $http.get('http://localhost:3000/api/business/' + bizId.business_id)
+    $http.get('http://waitforit.herokuapp.com/api/business/' + bizId.business_id)
       .then(function(response){
         $scope.favspots.push(response.data);
       });
@@ -186,13 +186,13 @@ app.controller('FavCtrl', ['$scope','$http', function($scope, $http) {
       localStorage.setItem("currentUser", JSON.stringify(temp));
 
       userid = JSON.parse(localStorage.currentUser)._id;
-      $http.delete('http://localhost:3000/api/'+userid+"/favorites", {id: spot.id})
+      $http.delete('http://waitforit.herokuapp.com/api/'+userid+"/favorites", {id: spot.id})
         .then(function(response){
           console.log(response, "deleted success");
         });
     } else {
       userid = JSON.parse(localStorage.currentUser)._id;
-        $http.put('http://localhost:3000/api/'+userid+'/favorites', {id: spot.id})
+        $http.put('http://waitforit.herokuapp.com/api/'+userid+'/favorites', {id: spot.id})
           .then(function(response){
             var temp = JSON.parse(localStorage.currentUser);
             temp.favorites.push(response.data);
@@ -215,7 +215,7 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$rou
   $scope.work = [];
   $scope.spot = {};
   //get business info
-  $http.get('http://localhost:3000/api/business/' + $routeParams.id)
+  $http.get('http://waitforit.herokuapp.com/api/business/' + $routeParams.id)
       .then(function(response){
         $scope.spot = response.data;
         console.log($scope.spot)
@@ -238,7 +238,7 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$rou
                   //check if user is close to location before letting them put in wait time
                     if (lat != spotCoord.latitude && long != spotCoord.longitude)
                       $scope.waitTime = function(business){
-                        $http.put('http://localhost:3000/api/business/' + $routeParams.id, business)
+                        $http.put('http://waitforit.herokuapp.com/api/business/' + $routeParams.id, business)
                           .then(function(response){
                             console.log(response.data)
                             $scope.business = response.data;
@@ -257,7 +257,7 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$rou
   $scope.newComment = function(comment) {
     var postData = {comments: comment.content};
 
-    $http.post('http://localhost:3000/api/business/' + $routeParams.id +"/comments", postData)
+    $http.post('http://waitforit.herokuapp.com/api/business/' + $routeParams.id +"/comments", postData)
       .then(function(response){
         $scope.work.push(response.data);
         console.log($scope.work);
