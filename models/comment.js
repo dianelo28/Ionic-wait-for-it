@@ -4,11 +4,8 @@ var mongoose = require("mongoose"),
 var User = require("./user.js");
 
 var CommentSchema = new Schema({
-	comments: {type: String, expires: 60*15},
-	author: [{
-		type: Schema.Types.ObjectId,
-		ref: "User" 
-	}]
+	createdAt: { type: Date, default: Date.now },
+	comments: {type: String, require: true}
 });
 
 var Comment = mongoose.model("Comment", CommentSchema);

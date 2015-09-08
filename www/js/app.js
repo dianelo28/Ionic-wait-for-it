@@ -200,7 +200,6 @@ app.controller('FavCtrl', ['$scope','$http', function($scope, $http) {
     $http.get('http://localhost:3000/api/business/' + bizId.business_id)
       .then(function(response){
         $scope.favspots.push(response.data);
-        console.log($scope.favspots);
       });
   });
 
@@ -238,6 +237,8 @@ app.controller('FavCtrl', ['$scope','$http', function($scope, $http) {
 }]);
 
 app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$routeParams', '$cordovaGeolocation', function($scope, $rootScope, $ionicModal, $http, $routeParams, $cordovaGeolocation){
+  $scope.work = [];
+  $scope.spot = {};
   $http.get('http://localhost:3000/api/business/' + $routeParams.id)
       .then(function(response){
         $scope.spot = response.data;
@@ -301,6 +302,17 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$rou
     // Execute action
   });
       
+  $scope.newComment = function(comment) {
+    var postData = {comments: comment.content};
+
+    $http.post('http://localhost:3000/api/business/' + $routeParams.id +"/comments", postData)
+      .then(function(response){
+        $scope.work.push(response.data);
+        console.log($scope.work);
+      }, function(response) {
+        console.log("error " + response)
+      });
+  };
 
   $scope.linkFacebook = function() {
     // connect email account with instagram

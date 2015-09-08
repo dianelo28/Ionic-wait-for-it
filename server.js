@@ -244,6 +244,27 @@ app.put('/api/business/:id', function (req,res){
 	});
 });
 
+app.post('/api/business/:id/comments', function(req, res){
+  var bizId = {business_id:req.params.id};
+  console.log(bizId);
+  var newComment = new Comment({
+    createdAt: req.body.createdAt,
+    comments: req.body.comments
+  });
+ 
+  newComment.save();
+
+  Business.findOne(bizId, function(err, test) {
+    test.comments.push(newComment);
+    test.save(function(err, succ){
+      console.log(err);
+      console.log(succ);
+    });
+    res.json(newComment);
+    console.log(test);
+  });  
+});
+
 app.put('/api/:userid/favorites', function (req, res){
   var userid = {_id:req.params.userid};
   var businessid = {business_id:req.body.id};
