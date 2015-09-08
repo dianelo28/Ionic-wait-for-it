@@ -23,6 +23,7 @@
 
   </ion-tabs>
 <ion-content>
+
 <div ng-if="!isAuthenticated()">
   <div ng-repeat="spot in spots">
       <a ng-href="/login">
@@ -34,6 +35,7 @@
     </a>
   </div>
 </div>
+
 <div ng-if="isAuthenticated()">
   <div ng-repeat="spot in spots">
       <a ng-href="/business/{{spot.id}}">
