@@ -140,15 +140,14 @@ app.run(function($ionicPlatform) {
 
 
 app.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$location', '$auth','$state', function($scope, $rootScope, $http, $location, $auth, $state){
-
   $scope.search = function (s){
     $http.post(host+'/api/search/' + s.term, s)
       .then(function(response){
+        s.term = "";
         $state.go('home');
         $rootScope.spots = response.data;
       });
   };
-
 }]);
 
 app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth','$http', '$state', function($scope, $rootScope, $auth, $http, $state){
@@ -293,6 +292,7 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
                         $http.put(host+'/api/business/' + $stateParams.id, biz)
                           .then(function(response){
                             console.log(response.data)
+                            business = {};
                             $scope.business = response.data;
                             $scope.modal.hide();
                           });
@@ -345,7 +345,7 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
 
 }]);
 
-app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$auth', '$location', function($scope, $rootScope, $window, $auth, $location){
+app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$auth', '$location','$ionicPopup', function($scope, $rootScope, $window, $auth, $location, $ionicPopup){
 
     $scope.emailLogin = function(sec) {
       $auth.login({ email: sec.email, password: sec.password })
@@ -355,16 +355,15 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', '$auth', '$locat
           $location.path($rootScope.savedLocation || '/home')
         })
         .catch(function(response) {
-          $scope.errorMessage = {};
-          angular.forEach(response.data.message, function(message, field) {
-            $scope.loginForm[field].$setValidity('server', false);
-            $scope.errorMessage[field] = response.data.message[field];
-          });
+          $ionicPopup.alert({
+               title: 'Bad login!',
+               template: 'Sorry, wrong email or password!'
+             });
         });
     };    
 }]);
 
-app.controller('SignupCtrl', ['$scope', '$auth', '$location','$window','$rootScope', function($scope, $auth, $location, $window, $rootScope){
+app.controller('SignupCtrl', ['$scope', '$auth', '$location','$window','$rootScope', '$ionicPopup', function($scope, $auth, $location, $window, $rootScope, $ionicPopup){
 
   $scope.signup = function(sec) {
     var user = {
@@ -381,13 +380,19 @@ app.controller('SignupCtrl', ['$scope', '$auth', '$location','$window','$rootSco
             $location.path($rootScope.savedLocation || '/home')
           })
           .catch(function(response) {
-            $scope.errorMessage = {};
-            angular.forEach(response.data.message, function(message, field) {
-              $scope.loginForm[field].$setValidity('server', false);
-              $scope.errorMessage[field] = response.data.message[field];
-            });
+              $scope.errorMessage = {};
+              angular.forEach(response.data.message, function(message, field) {
+                $scope.loginForm[field].$setValidity('server', false);
+                $scope.errorMessage[field] = response.data.message[field];
+              });
           });
-      });
+      })
+        .catch (function(response){
+          $ionicPopup.alert({
+             title: 'Bad signup!',
+             template: 'Sorry, email already taken!'
+           });
+        });
   };
 
 }]);
