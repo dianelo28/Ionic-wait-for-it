@@ -74,44 +74,35 @@
         <h1 class="title">Update current wait time for... </h1> <a href='javascript:void(0)'><span class="close-modal" ng-click="modal.hide()"><i class="ion-close"></i></span></a>
       </ion-header-bar>
       <ion-content>
-        <div class="list">
-          <label class="item item-radio"><div class="item-content">
-              1-2 people
-            </div> 
-            <input id="twoWait" input type="radio" name="content" ng-model="content" value="two">
-            <i class="radio-icon ion-checkmark"></i>
-          </label>
-
-          <label class= "item item-radio"> 
-            <div class="item-content">
-              3-4 people
-            </div> 
-            <input id="fourWait" input type="radio" name="content" ng-model="content" value="four">
-            <i class="radio-icon ion-checkmark"></i>
-          </label>
-
-          <label class="item item-radio"><div class="item-content">
-              5+ people
-            </div> 
-            <input id="fiveWait" input type="radio" name="content" ng-model="content" value="five">
-            <i class="radio-icon ion-checkmark"></i>
-          </label>
-        </div>
 
         <form ng-submit='waitTime(business)'>
-
-          <label class="item item-input" ng-show="content == 'two'">
-            <input type="tel" ng-model='business.twoWait' placeholder="Quoted Wait Time for 1-2 people">
+        <div class="list">
+          <label class="item item-radio">
+              <input type="radio" ng-model="business.party" value="twoWait">
+              <div class="item-content">
+              1-2 people
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
+          </label>
+          <label class="item item-radio">
+              <input type="radio" ng-model="business.party" value="fourWait">
+              <div class="item-content">
+              3-4 people
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
+          </label>
+          <label class="item item-radio">
+              <input type="radio" ng-model="business.party" value="fiveWait">
+              <div class="item-content">
+              5 people
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
           </label>
 
-          <label class="item item-input" ng-show="content == 'four'">
-            <input type="tel" ng-model='business.fourWait' placeholder="Quoted Wait Time for 3-4 people">
-          </label>
 
-          <label class="item item-input" ng-show="content == 'five'">
-            <input type="tel" ng-model='business.fiveWait' placeholder="Quoted Wait Time for 5+ people">
+          <label class="item item-input">
+            <input type="tel" ng-model='business.wait' placeholder="Quoted Wait Time">
           </label>
-
 
           <input type="submit" class='col col-33 col-offset-33 start' align='center' value="Submit" >
         </form>
