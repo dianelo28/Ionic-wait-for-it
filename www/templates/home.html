@@ -5,19 +5,19 @@
 
   <ion-tabs class="tabs-default tabs-icon-top">
 
-    <ion-tab title="Home" icon-on="ion-ios-home" icon-off="ion-ios-home" href="/home">
+    <ion-tab title="Home" icon-on="ion-ios-home" icon-off="ion-ios-home" href="#/home">
       <!-- Tab 1 content -->
     </ion-tab>
 
-    <ion-tab title="Map" icon-on="ion-map" icon-off="ion-map" href="/map">
+    <ion-tab title="Map" icon-on="ion-map" icon-off="ion-map" href="#/map">
       <!-- Tab 2 content -->
     </ion-tab>
 
-    <ion-tab title="Favorites" icon-on="ion-ios-heart" icon-off="ion-ios-heart" href="/favorites">
+    <ion-tab title="Favorites" icon-on="ion-ios-heart" icon-off="ion-ios-heart" href="#/favorites">
       <!-- Tab 3 content -->
     </ion-tab>
 
-    <ion-tab title="Search" icon-on="ion-android-search" icon-off="ion-android-search" href="/search">
+    <ion-tab title="Search" icon-on="ion-android-search" icon-off="ion-android-search" href="#/search">
       <!-- Tab 4 content -->
     </ion-tab>
 
@@ -26,7 +26,7 @@
 
 <div ng-if="!isAuthenticated()">
   <div ng-repeat="spot in spots">
-      <a ng-href="/login">
+      <a ng-href="#/login">
       <div class="item item-text-wrap namecard" >
         <h2>{{spot.name}}<h2>
           <a href='/login'><i class="ion-ios-heart-outline"></i></a>
@@ -38,7 +38,7 @@
 
 <div ng-if="isAuthenticated()">
   <div ng-repeat="spot in spots">
-      <a ng-href="/business/{{spot.id}}">
+      <a ng-href="#/business/{{spot.id}}">
       <div class="item item-text-wrap namecard" >
         <h2>{{spot.name}}<h2>
           <a href='javascript:void(0)'><i ng-class="checkFavorites(spot)" ng-click='fav = !fav; favorites(spot)'></i></a>

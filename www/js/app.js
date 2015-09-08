@@ -1,4 +1,4 @@
-var app = angular.module('wait', ['ionic', 'ngMap', 'angularMoment', 'ngRoute', 'satellizer', 'ngCordova']);
+var app = angular.module('wait', ['ionic', 'ngMap', 'angularMoment', 'satellizer', 'ngCordova']);
 
 app.config(['$ionicConfigProvider', "$authProvider", function($ionicConfigProvider, $authProvider) {
 
@@ -8,66 +8,107 @@ app.config(['$ionicConfigProvider', "$authProvider", function($ionicConfigProvid
     $authProvider.signupUrl = 'http://waitforit.herokuapp.com/auth/signup';
 }]);
 
-app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-    $routeProvider
+app.config(function($stateProvider, $urlRouterProvider) {
+    $stateProvider
         // home page
-        .when('/', {
-            templateUrl: '/templates/start.html',
-            controller: 'MainCtrl',
-            requireAuth: false,
-            onBoard: true
+        .state('start', {
+            url:'',
+             views: {
+              "start": {
+                      templateUrl: 'templates/start.html',
+                      controller: 'MainCtrl',
+                      requireAuth: false,
+                      onBoard: true
+                       }
+             }
         })
-        .when('/search',{
-            templateUrl: '/templates/search.html',
-            controller: 'MainCtrl',
-            requireAuth: false
+        .state('search',{
+            url: '/search',
+            views: {
+              "start": {
+                      templateUrl: 'templates/search.html',
+                      controller: 'MainCtrl',
+                      requireAuth: false
+                      }
+            }
         })
-        .when('/home',{
-            templateUrl: '/templates/home.html',
-            controller: 'HomeCtrl',
-            requireAuth: false
+        .state('home',{
+            url:'/home',
+            views: {
+            "start": {
+                    templateUrl: 'templates/home.html',
+                    controller: 'HomeCtrl',
+                    requireAuth: false
+                     }
+            }
         })
-        .when('/map',{
-            templateUrl: '/templates/map.html',
-            controller: 'HomeCtrl',
-            requireAuth: false
+        .state('map',{
+            url:'/map',
+            views: {
+            "start":{
+                    templateUrl: 'templates/map.html',
+                    controller: 'HomeCtrl',
+                    requireAuth: false
+                   }
+            }
+        })
+        .state('business',{
+            url:'/business/:id',
+            views: {
+            "start":{ 
+                    templateUrl: 'templates/business.html',
+                    controller: 'BizCtrl',
+                    requireAuth: true
+                    }
+            }
+        })
+        .state('favorites',{
+            url:'/favorites',
+            views: {
+            "start":{
+                    templateUrl: 'templates/favorites.html',
+                    controller: 'FavCtrl',
+                    requireAuth: true
+                    }
+            } 
+        })
+        .state('signup',{
+            url: '/signup',
+            views: {
+            "start":{
+                    templateUrl: '/templates/signup.html',
+                    controller: 'SignupCtrl',
+                    requireAuth: false
+                    }
+            }
+        })
+        .state('login',{
+            url:'/login',
+            views:{
+            "start":{
+                    templateUrl: 'templates/login.html',
+                    controller: 'LoginCtrl',
+                    requireAuth: false
+                    }
+           } 
+        })
+        .state('alert',{
+            url:'/alert',
+            views:{
+            "start":{
+                    templateUrl: 'templates/alert.html',
+                    controller: 'MainCtrl',
+                    requireAuth: true
+                    }
+            }
+        })
+    $urlRouterProvider.otherwise('/')
 
-        })
-        .when('/business/:id',{
-            templateUrl: '/templates/business.html',
-            controller: 'BizCtrl',
-            requireAuth: true
-        })
-        .when('/favorites',{
-            templateUrl: '/templates/favorites.html',
-            controller: 'FavCtrl',
-            requireAuth: true
-
-        })
-        .when('/signup',{
-            templateUrl: '/templates/signup.html',
-            controller: 'SignupCtrl',
-            requireAuth: false
-        })
-        .when('/login',{
-            templateUrl: '/templates/login.html',
-            controller: 'LoginCtrl',
-            requireAuth: false
-        })
-        .when('/alert',{
-            templateUrl: '/templates/alert.html',
-            controller: 'MainCtrl',
-            requireAuth: true
-        })
-        .otherwise({
-            redirectTo: '/'
-        })
-
-    $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: false
-    });
-}]);
+    // $locationProvider.html5Mode({
+    //     enabled: true,
+    //     requireBase: false
+    // });
+});
 
 app.run(["$rootScope", "$location", "$auth", function($rootScope, $location, $auth) {
     $rootScope.$on("$routeChangeStart", function(event, next, current) {
@@ -95,19 +136,19 @@ app.run(function($ionicPlatform) {
 });
 
 
-app.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$location', '$auth', function($scope, $rootScope, $http, $location, $auth){
+app.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$location', '$auth','$state', function($scope, $rootScope, $http, $location, $auth, $state){
 
   $scope.search = function (s){
     $http.post('http://waitforit.herokuapp.com/api/search/' + s.term, s)
       .then(function(response){
-        $location.path('/home');
+        $state.go('home');
         $rootScope.spots = response.data;
       });
   };
 
 }]);
 
-app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth','$http', function($scope, $rootScope, $auth, $http){
+app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth','$http', '$state', function($scope, $rootScope, $auth, $http, $state){
   //pass data from main controller
   $rootScope.spots = $scope.spots;
   //map
@@ -211,11 +252,11 @@ app.controller('FavCtrl', ['$scope','$http', function($scope, $http) {
 
 }]);
 
-app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$routeParams', '$cordovaGeolocation', function($scope, $rootScope, $ionicModal, $http, $routeParams, $cordovaGeolocation){
+app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$stateParams', '$cordovaGeolocation', function($scope, $rootScope, $ionicModal, $http, $stateParams, $cordovaGeolocation){
   $scope.work = [];
   $scope.spot = {};
   //get business info
-  $http.get('http://waitforit.herokuapp.com/api/business/' + $routeParams.id)
+  $http.get('http://waitforit.herokuapp.com/api/business/' + $stateParams.id)
       .then(function(response){
         $scope.spot = response.data;
         console.log($scope.spot)
