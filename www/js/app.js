@@ -1,7 +1,7 @@
 var app = angular.module('wait', ['ionic', 'ngMap', 'angularMoment', 'satellizer', 'ngCordova']);
 
-var host = 'http://localhost:3000' 
-// var host = 'https://waitforit.herokuapp.com'
+// var host = 'http://localhost:3000' 
+var host = 'https://waitforit.herokuapp.com'
 
 app.config(['$ionicConfigProvider', "$authProvider", function($ionicConfigProvider, $authProvider) {
 
@@ -266,9 +266,17 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
     });
 
     socket.on("send:comment", function(data) {
-      $scope.work.push(data);
+      $scope.$apply(function(){
+        $scope.work.push(data);
+      })
     });
 
+    socket.on("send:time", function(data) {
+      $scope.$apply(function(){
+        $scope.business[data.party] = data.wait;
+        $scope.business[data.party] = data.updated;
+      });
+    });
 
   // //check radio button
   // $scope.checkt = function(){
@@ -320,6 +328,7 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
                         if ((Math.abs(lat - spotCoord.latitude) < 0.005) && (Math.abs(long - spotCoord.longitude) < 0.005)) {
                           var waitMinutes = (parseInt(business.hour) * 60) + parseInt(business.minute);
                           var biz = {party: business.party, wait: waitMinutes, updated: new Date()};
+                            socket.emit("send:time", biz);
                           $http.put(host+'/api/business/' + $stateParams.id, biz)
                             .then(function(response){
                               console.log(response.data);
