@@ -260,7 +260,7 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
   $scope.business = {};
 
   //sockets
-  var socket = io.connect(host, {'force new connection': true});
+  var socket = io(host);
     socket.on("connect", function() {
       console.log("connected!");
     });
