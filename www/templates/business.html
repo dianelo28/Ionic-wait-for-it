@@ -36,22 +36,22 @@
   <div class="row responsive-sm">
     <div class="card col col-32" align="center">
       <h4> 2 people </h4>
-      <h1> {{(business.twoWait.wait / 60) | number: 0}} hours {{business.twoWait.wait % 60}} minutes </h1>
-      <small>{{business.twoWait.updatedAt}}</small>
+      <h2> {{(business.twoWait.wait / 60) | number: 0}} hours {{business.twoWait.wait % 60 | number: 0}} minutes </h2>
+      <small>updated at: {{business.twoWait.updatedAt | date:"MM/dd/yyyy 'at' h:mma"}}</small><br>
       <a href='javascript:void(0)' ng-click="modal.show(); checkLocation(); checkt()">Update wait time</a>
 
     </div>
     <div class="card col col-33" align="center">
       <h4> 3-4 people </h4>
-      <h1> {{(business.fourWait.wait / 60) | number: 0}} hours {{business.fourWait.wait % 60}} minutes </h1>
-      <small>{{business.fourWait.updatedAt}}</small>
+      <h2> {{(business.fourWait.wait / 60) | number: 0}} hours {{business.fourWait.wait % 60 | number: 0}} minutes </h2>
+      <small>updated at: {{business.fourWait.updatedAt | date:"MM/dd/yyyy 'at' h:mma"}}</small><br>
       <a href='javascript:void(0)' ng-click="modal.show(); checkLocation(); checkf()">Update wait time</a>
 
     </div>
     <div class="card col col-32" align="center">
       <h4> 5+ people </h4>
-      <h1> {{(business.fiveWait.wait / 60) | number: 0}} hours {{business.fiveWait.wait % 60}} minutes </h1>
-      <small>{{business.fiveWait.updatedAt}}</small>
+      <h2> {{(business.fiveWait.wait / 60) | number: 0}} hours {{business.fiveWait.wait % 60 | number: 0}} minutes </h2>
+      <small>updated at: {{business.fiveWait.updatedAt | date:"MM/dd/yyyy 'at' h:mma"}}</small><br>
       <a href='javascript:void(0)' ng-click="modal.show(); checkLocation(); checkfi()">Update wait time</a>
     </div>
   </div>
@@ -59,19 +59,19 @@
   <div class="col" align="center">
     <h3>Comments/photos</h3>
   </div>
-    <div class="list">
-      <div class="item item-input-inset">
-        <label class="item-input-wrapper">
-          <form name="comments" ng-submit="newComment(comment)">
-            <input type="text" ng-model="comment.content" placeholder="Share what your wait is like!"/>
-        </label>
-            <input type="submit" value="submit" class="button button-small">
-            </div>
+    <div class="col">
+      <div class="item item-input">
+        <form name="comments" ng-submit="newComment(comment)">
+            <input type="text" ng-model="comment.content" placeholder="Share your thoughts!"/>
+          </div>
+            <input type="submit" value="submit" class="button button-small button-block">
           </form>
+        </div>
+      </div>
     </div>
     <hr>
     <div id="comment" >
-      <div class='col col-33 col-offset-33' ng-repeat="test in work"><p>{{test.author}}: {{test.comments}}</p><small>{{test.createdAt | date:"MM/dd/yyyy 'at' h:mma"}}</small>
+      <div class='col col-50 col-offset-25' ng-repeat="test in work | limitTo:10 | orderBy:'-createdAt' "><p>{{test.author}}: {{test.comments}}</p><small>{{test.createdAt | date:"MM/dd/yyyy 'at' h:mma"}}</small>
     </div>
     <br>
 </ion-content>

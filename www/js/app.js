@@ -270,20 +270,20 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
     });
 
 
-  //check radio button
-  $scope.checkt = function(){
-    document.getElementById("two").checked = true;
-  };
+  // //check radio button
+  // $scope.checkt = function(){
+  //   document.getElementById("two").checked = true;
+  // };
 
-    //check radio button
-  $scope.checkf = function(){
-    document.getElementById("four").checked = true;
-  };
+  //   //check radio button
+  // $scope.checkf = function(){
+  //   document.getElementById("four").checked = true;
+  // };
 
-  //check radio button five on click
-  $scope.checkfi = function(){
-    document.getElementById("five").checked = true;
-  };
+  // //check radio button five on click
+  // $scope.checkfi = function(){
+  //   document.getElementById("five").checked = true;
+  // };
 
   //get business info
   $http.get(host+'/api/waits/' + $stateParams.id)
@@ -351,7 +351,7 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
     $http.post(host+'/api/business/' + $stateParams.id +"/comments", postData)
       .then(function(response){
         $scope.work.push(response.data);
-        console.log($scope.work);
+        // console.log($scope.work);
         comment.content = ""
       }, function(response) {
         console.log("error " + response)
