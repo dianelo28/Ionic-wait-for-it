@@ -278,14 +278,14 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
   $http.get(host+'/api/waits/' + $stateParams.id)
   .then(function(response){
     $scope.work = response.data.comments;
-    console.log($scope.work);
+    // console.log($scope.work);
     $scope.business = response.data;
   });
 
   $http.get(host +'/api/business/' + $stateParams.id)
       .then(function(response){
         $scope.spot = response.data;
-        console.log($scope.spot);
+        // console.log($scope.spot);
           //check location
           $scope.checkLocation = function(){
             var posOptions = {timeout: 10000, enableHighAccuracy: false};
@@ -294,26 +294,27 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
                 .then(function (position) {
                   var lat  = position.coords.latitude;
                   var long = position.coords.longitude;
-                  console.log(position)
+                  // console.log(position)
 
                   var spotCoord = {
                     latitude: $scope.spot.location.coordinate.latitude, 
                     longitude: $scope.spot.location.coordinate.longitude
                   }
 
-                  console.log(spotCoord)
+                  // console.log(spotCoord)
                   //check if user is close to location before letting them put in wait time
                     
                       $scope.waitTime = function(business){
+                        $scope.modal.hide();
                         if ((Math.abs(lat - spotCoord.latitude) < 0.005) && (Math.abs(long - spotCoord.longitude) < 0.005)) {
                           var waitMinutes = (parseInt(business.hour) * 60) + parseInt(business.minute);
-                          var biz = {party: business.party, wait: waitMinutes}
+                          var biz = {party: business.party, wait: waitMinutes, updated: new Date()};
                           $http.put(host+'/api/business/' + $stateParams.id, biz)
                             .then(function(response){
-                              console.log(response.data)
+                              console.log(response.data);
                               business = {};
                               $scope.business = response.data;
-                              $scope.modal.hide();
+                              
                             });
                         } else {
                           alert("Sorry, you need to be at the location to add a wait time!");
