@@ -259,6 +259,17 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
   $scope.spot = {};
   $scope.business = {};
 
+  //sockets
+  var socket = io.connect(host, {'force new connection': true});
+    socket.on("connect", function() {
+      console.log("connected!");
+    });
+
+    socket.on("send:comment", function(data) {
+      $scope.work.push(data);
+    });
+
+
   //check radio button
   $scope.checkt = function(){
     document.getElementById("two").checked = true;
@@ -334,6 +345,8 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
                     author: name,
                     createdAt: new Date()
                     };
+
+    socket.emit("send:comment", postData);
 
     $http.post(host+'/api/business/' + $stateParams.id +"/comments", postData)
       .then(function(response){
