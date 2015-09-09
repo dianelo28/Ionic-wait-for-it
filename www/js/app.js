@@ -300,23 +300,25 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
 
                   console.log(spotCoord)
                   //check if user is close to location before letting them put in wait time
-                    if (lat != spotCoord.latitude && long != spotCoord.longitude)
+                    
                       $scope.waitTime = function(business){
-                        var waitMinutes = (parseInt(business.hour) * 60) + parseInt(business.minute);
-                        var biz = {party: business.party, wait: waitMinutes}
-                        $http.put(host+'/api/business/' + $stateParams.id, biz)
-                          .then(function(response){
-                            console.log(response.data)
-                            business = {};
-                            $scope.business = response.data;
-                            $scope.modal.hide();
-                          });
-                        };
-                    else 
-                      alert("Sorry, you need to be at the location to add a wait time!");
+                        if ((Math.abs(lat - spotCoord.latitude) < 0.005) && (Math.abs(long - spotCoord.longitude) < 0.005)) {
+                          var waitMinutes = (parseInt(business.hour) * 60) + parseInt(business.minute);
+                          var biz = {party: business.party, wait: waitMinutes}
+                          $http.put(host+'/api/business/' + $stateParams.id, biz)
+                            .then(function(response){
+                              console.log(response.data)
+                              business = {};
+                              $scope.business = response.data;
+                              $scope.modal.hide();
+                            });
+                        } else {
+                          alert("Sorry, you need to be at the location to add a wait time!");
+                        }
+                      }
                 },
                 function (err) {
-                  alert('Please allow access to location to enter a wait time')
+                  alert('Please allow access to location to enter a wait time');
                 });
           };
       });
