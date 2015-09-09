@@ -109,3 +109,7 @@ body{
 .card a{
 	font-size: 10px;
 }
+
+#comment{
+	padding-bottom: 50px
+}

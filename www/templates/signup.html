@@ -8,6 +8,10 @@
 	<p class='col form-title' align='center'>Sign Up</p>
 	<form name="signupForm" ng-submit="signup(sec)">
 		<div class="list">
+	      <label class="item item-input">
+	        <span class="input-label">username</span>
+	        <input type="text" ng-model="sec.username">
+	      </label>
 		  <label class="item item-input">
 		    <span class="input-label">email</span>
 		    <input type="email" ng-model="sec.email">

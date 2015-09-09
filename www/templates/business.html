@@ -37,21 +37,21 @@
     <div class="card col col-32" align="center">
       <h4> 2 people </h4>
       <h1> {{(business.twoWait / 60) | number: 0}} hours {{business.twoWait % 60}} minutes </h1>
-      <small><span am-time-ago="wait.time"></span></small>
+      <small><span am-time-ago="business.updated"></span></small>
       <a href='javascript:void(0)' ng-click="modal.show(); checkLocation(); checkt()">Update wait time</a>
 
     </div>
     <div class="card col col-33" align="center">
       <h4> 3-4 people </h4>
       <h1> {{(business.fourWait / 60) | number: 0}} hours {{business.fourWait % 60}} minutes </h1>
-      <small><span am-time-ago="wait.time"></span></small>
+      <small><span am-time-ago="business.updated"></span></small>
       <a href='javascript:void(0)' ng-click="modal.show(); checkLocation(); checkf()">Update wait time</a>
 
     </div>
     <div class="card col col-32" align="center">
       <h4> 5+ people </h4>
       <h1> {{(business.fiveWait / 60) | number: 0}} hours {{business.fiveWait % 60}} minutes </h1>
-      <small><span am-time-ago="wait.time"></span></small>
+      <small><span am-time-ago="business.updated"></span></small>
       <a href='javascript:void(0)' ng-click="modal.show(); checkLocation(); checkfi()">Update wait time</a>
     </div>
   </div>
@@ -64,13 +64,15 @@
         <label class="item-input-wrapper">
           <form name="comments" ng-submit="newComment(comment)">
             <input type="text" ng-model="comment.content" placeholder="Share what your wait is like!"/>
-          </form>
         </label>
-          <input type="submit" value="submit" class="button button-small">
-      </div>
+            <input type="submit" value="submit" class="button button-small">
+            </div>
+          </form>
     </div>
     <hr>
-    <div class='col col-75' align='center' ng-repeat="test in work"><p>{{test.comments}}</p></div>
+    <div id="comment" >
+      <div class='col col-33 col-offset-33' ng-repeat="test in work"><p>{{test.author}}: {{test.comments}}</p><small>{{test.createdAt | date:"MM/dd/yyyy 'at' h:mma"}}</small>
+    </div>
     <br>
 </ion-content>
 

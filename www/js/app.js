@@ -1,7 +1,7 @@
 var app = angular.module('wait', ['ionic', 'ngMap', 'angularMoment', 'satellizer', 'ngCordova']);
 
-// var host = 'http://localhost:3000' 
-var host = 'https://waitforit.herokuapp.com'
+var host = 'http://localhost:3000' 
+// var host = 'https://waitforit.herokuapp.com'
 
 app.config(['$ionicConfigProvider', "$authProvider", function($ionicConfigProvider, $authProvider) {
 
@@ -273,13 +273,16 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
   $scope.checkfi = function(){
     document.getElementById("five").checked = true;
   };
+
   //get business info
   $http.get(host+'/api/waits/' + $stateParams.id)
   .then(function(response){
-    $scope.business = response.data
+    $scope.work = response.data.comments;
+    console.log($scope.work);
+    $scope.business = response.data;
   });
 
-  $http.get(host+'/api/business/' + $stateParams.id)
+  $http.get(host +'/api/business/' + $stateParams.id)
       .then(function(response){
         $scope.spot = response.data;
         console.log($scope.spot);
@@ -324,16 +327,24 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
       });
   //commenting
   $scope.newComment = function(comment) {
-    var postData = {comments: comment.content};
+    var name = JSON.parse(localStorage.currentUser).username;
+    console.log(name);
+    var postData = {comments: comment.content,
+                    author: name,
+                    createdAt: new Date()
+                    };
 
     $http.post(host+'/api/business/' + $stateParams.id +"/comments", postData)
       .then(function(response){
         $scope.work.push(response.data);
         console.log($scope.work);
+        comment.content = ""
       }, function(response) {
         console.log("error " + response)
       });
   };
+
+
   //modal for wait time
   $ionicModal.fromTemplateUrl('my-modal.html', {
     scope: $scope,
@@ -384,6 +395,7 @@ app.controller('SignupCtrl', ['$scope', '$auth', '$location','$window','$rootSco
 
   $scope.signup = function(sec) {
     var user = {
+      username: sec.username,
       email: sec.email,
       password: sec.password
     };

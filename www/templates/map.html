@@ -28,13 +28,11 @@
     <label class="item item-input">
       <input type="search" ng-model="q" placeholder="filter neighborhood, name, etc...">
     </label>
-  <div map-lazy-load="http://maps.google.com/maps/api/js"> 
   	<map center="current location" zoom="13" data-tap-disabled="false">
       <info-window position="current-location" visible="true">
         <span>You are here!</span>
       </info-window>
   		<marker ng-repeat="spot in spots | filter:q as results" position="{{spot.location.coordinate.latitude}},{{spot.location.coordinate.longitude}}" on-click="showInfoWindow(event, spot)"></marker>
   	</map>
-  </div>
 </ion-content>
 
