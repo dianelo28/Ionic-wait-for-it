@@ -273,8 +273,8 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
 
     socket.on("send:time", function(data) {
       $scope.$apply(function(){
-        $scope.business[data.party] = data.wait;
-        $scope.business[data.party] = data.updated;
+        $scope.business[data.party].wait = data.wait;
+        $scope.business[data.party].updatedAt = data.updated;
       });
     });
 
