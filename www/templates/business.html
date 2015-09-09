@@ -38,21 +38,21 @@
       <h4> 2 people </h4>
       <h1> {{business.twoWait}} </h1>
       <small><span am-time-ago="wait.time"></span></small>
-      <a href='javascript:void(0)' ng-click="modal.show(); checkLocation()">Update wait time</a>
+      <a href='javascript:void(0)' ng-click="modal.show(); checkLocation(); checkt()">Update wait time</a>
 
     </div>
     <div class="card col col-33" align="center">
       <h4> 3-4 people </h4>
       <h1> {{business.fourWait}} </h1>
       <small><span am-time-ago="wait.time"></span></small>
-      <a href='javascript:void(0)' ng-click="modal.show(); checkLocation()">Update wait time</a>
+      <a href='javascript:void(0)' ng-click="modal.show(); checkLocation(); checkf()">Update wait time</a>
 
     </div>
     <div class="card col col-32" align="center">
       <h4> 5+ people </h4>
       <h1> {{business.fiveWait}} </h1>
       <small><span am-time-ago="wait.time"></span></small>
-      <a href='javascript:void(0)' ng-click="modal.show(); checkLocation()">Update wait time</a>
+      <a href='javascript:void(0)' ng-click="modal.show(); checkLocation(); checkfi()">Update wait time</a>
     </div>
   </div>
 
@@ -78,21 +78,21 @@
         <form ng-submit='waitTime(business)'>
         <div class="list">
           <label class="item item-radio">
-              <input type="radio" id="two" ng-model="business.party" value="twoWait">
+              <input type="radio" id="two" checked="false" ng-model="business.party" value="twoWait">
               <div class="item-content">
               1-2 people
             </div>
             <i class="radio-icon ion-checkmark"></i>
           </label>
           <label class="item item-radio">
-              <input type="radio" id="four" ng-model="business.party" value="fourWait">
+              <input type="radio" id="four" ng-model="business.party" checked="false" value="fourWait">
               <div class="item-content">
               3-4 people
             </div>
             <i class="radio-icon ion-checkmark"></i>
           </label>
           <label class="item item-radio">
-              <input type="radio" id="five" ng-model="business.party" value="fiveWait">
+              <input type="radio" id="five" checked="false" ng-model="business.party" value="fiveWait">
               <div class="item-content">
               5 people
             </div>

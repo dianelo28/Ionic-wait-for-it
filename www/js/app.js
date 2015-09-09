@@ -1,7 +1,7 @@
 var app = angular.module('wait', ['ionic', 'ngMap', 'angularMoment', 'satellizer', 'ngCordova']);
 
-var host = 'http://localhost:3000' 
-           // 'https://waitforit.herokuapp.com'
+// var host = 'http://localhost:3000' 
+var host = 'https://waitforit.herokuapp.com'
 
 app.config(['$ionicConfigProvider', "$authProvider", function($ionicConfigProvider, $authProvider) {
 
@@ -79,7 +79,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/signup',
             views: {
             "start":{
-                    templateUrl: '/templates/signup.html',
+                    templateUrl: 'templates/signup.html',
                     controller: 'SignupCtrl',
                     requireAuth: false
                     }
@@ -258,6 +258,21 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
   $scope.work = [];
   $scope.spot = {};
   $scope.business = {};
+
+  //check radio button
+  $scope.checkt = function(){
+    document.getElementById("two").checked = true;
+  };
+
+    //check radio button
+  $scope.checkf = function(){
+    document.getElementById("four").checked = true;
+  };
+
+  //check radio button five on click
+  $scope.checkfi = function(){
+    document.getElementById("five").checked = true;
+  };
   //get business info
   $http.get(host+'/api/waits/' + $stateParams.id)
   .then(function(response){

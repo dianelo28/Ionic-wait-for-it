@@ -24,7 +24,7 @@
 
   </ion-tabs>
 
-<ion-content>
+<ion-pane data-tap-disabled="false">
     <label class="item item-input">
       <input type="search" ng-model="q" placeholder="filter neighborhood, name, etc...">
     </label>
@@ -34,5 +34,5 @@
     </info-window>
 		<marker ng-repeat="spot in spots | filter:q as results" position="{{spot.location.coordinate.latitude}},{{spot.location.coordinate.longitude}}" on-click="showInfoWindow(event, spot)"></marker>
 	</map>
-</ion-content>
+</ion-pane>
 
