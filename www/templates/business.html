@@ -60,14 +60,10 @@
     <h3>Comments/photos</h3>
   </div>
     <div class="col">
-      <div class="item item-input">
-        <form name="comments" ng-submit="newComment(comment)">
-            <input type="text" ng-model="comment.content" placeholder="Share your thoughts!"/>
-          </div>
+        <form ng-submit="newComments(thoughts)">
+            <input type="text" ng-model="thoughts" placeholder="Share your thoughts!"/>
             <input type="submit" value="submit" class="button button-small button-block">
-          </form>
-        </div>
-      </div>
+        </form>
     </div>
     <hr>
     <div id="comment" >

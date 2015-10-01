@@ -178,35 +178,36 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$auth','$http', '$state', f
   };
   //favorites
   $scope.favorites = function(spot) {
-    if (_.findWhere(JSON.parse(localStorage.currentUser).favorites, {business_id: spot.id}) != undefined) {
-      var temp = JSON.parse(localStorage.currentUser);
-      var index = temp.favorites.indexOf(_.findWhere(JSON.parse(localStorage.currentUser).favorites, {business_id: spot.id}));
-      temp.favorites.splice(index, 1);
-      localStorage.setItem("currentUser", JSON.stringify(temp));     
-       
-      userid = JSON.parse(localStorage.currentUser)._id;
+    var current = JSON.parse(localStorage.currentUser);
+    var userid = current._id;
+    // delete if already a favorited business
+    if (_.findWhere(current.favorites, {business_id: spot.id}) !== undefined) {
+      var index = current.favorites.indexOf(_.findWhere(current.favorites, {business_id: spot.id}));
+      current.favorites.splice(index, 1);
+      localStorage.setItem("currentUser", JSON.stringify(current));     
+      
       $http.delete(host+'/api/'+userid+"/favorites", {id: spot.id})
         .then(function(response){
           console.log(response, "deleted success");
         });
+    // add to favorites
     } else {
-    userid = JSON.parse(localStorage.currentUser)._id;
       $http.put(host+'/api/'+userid+'/favorites', {id: spot.id})
         .then(function(response){
-          var temp = JSON.parse(localStorage.currentUser);
-          temp.favorites.push(response.data);
-          localStorage.setItem("currentUser", JSON.stringify(temp));
+          current.favorites.push(response.data);
+          localStorage.setItem("currentUser", JSON.stringify(current));
         });
-    };  
+    } 
   };
+  
   //check for favorites
   $scope.checkFavorites = function(spot) {
-    if (_.findWhere(JSON.parse(localStorage.currentUser).favorites, {business_id: spot.id}) != undefined) {
+    if (_.findWhere(JSON.parse(localStorage.currentUser).favorites, {business_id: spot.id}) !== undefined) {
       return "ion-ios-heart";
     } else {
       return "ion-ios-heart-outline";
     }
-  }
+  };
 
 }]);
 
@@ -273,6 +274,7 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
 
     socket.on("send:time", function(data) {
       $scope.$apply(function(){
+        // console.log(data);
         $scope.business[data.party].wait = data.wait;
         $scope.business[data.party].updatedAt = data.updated;
       });
@@ -297,7 +299,7 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
   $http.get(host+'/api/waits/' + $stateParams.id)
   .then(function(response){
     $scope.work = response.data.comments;
-    // console.log($scope.work);
+    console.log(response);
     $scope.business = response.data;
   });
 
@@ -325,7 +327,8 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
                     
                       $scope.waitTime = function(business){
                         $scope.modal.hide();
-                        if ((Math.abs(lat - spotCoord.latitude) < 0.005) && (Math.abs(long - spotCoord.longitude) < 0.005)) {
+                        // if ((Math.abs(lat - spotCoord.latitude) < 0.005) && (Math.abs(long - spotCoord.longitude) < 0.005)) {
+                        if ((Math.abs(lat - spotCoord.latitude) > 0.0000001) && (Math.abs(long - spotCoord.longitude) > 0.0000001)) {
                           var waitMinutes = (parseInt(business.hour) * 60) + parseInt(business.minute);
                           var biz = {party: business.party, wait: waitMinutes, updated: new Date()};
                             socket.emit("send:time", biz);
@@ -347,21 +350,18 @@ app.controller('BizCtrl', ['$scope', '$rootScope', '$ionicModal', '$http', '$sta
           };
       });
   //commenting
-  $scope.newComment = function(comment) {
+  $scope.newComments = function(thoughts) {
     var name = JSON.parse(localStorage.currentUser).username;
-    console.log(name);
-    var postData = {comments: comment.content,
+    var postData = {comments: thoughts,
                     author: name,
                     createdAt: new Date()
                     };
-
+    console.log(thoughts);
     socket.emit("send:comment", postData);
 
     $http.post(host+'/api/business/' + $stateParams.id +"/comments", postData)
       .then(function(response){
-        $scope.work.push(response.data);
-        // console.log($scope.work);
-        comment.content = ""
+        $scope.thoughts = "";
       }, function(response) {
         console.log("error " + response)
       });
